@@ -70,7 +70,12 @@ class _LoginViewBodyState extends State<LoginViewBody> {
               ],
             ),
             const SizedBox(height: 20),
-            CustomButton(onPressed: () {}, title: "Login"),
+            CustomButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, RoutesName.homeView);
+              },
+              title: "Login",
+            ),
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {},

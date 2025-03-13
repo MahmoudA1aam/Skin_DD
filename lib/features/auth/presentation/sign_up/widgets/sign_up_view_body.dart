@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skin_dd/features/auth/presentation/sign_up/widgets/custom_radio_button.dart';
 
+import '../../../../../core/helper/routes/routes_name.dart';
 import '../../../../../core/theming/colors_app.dart';
 import '../../../../../core/theming/text_style_app.dart';
 import '../../../../../core/widgets/custom_button.dart';
@@ -109,7 +110,12 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
               ],
             ),
             SizedBox(height: 25),
-            CustomButton(onPressed: () {}, title: "Create Account "),
+            CustomButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, RoutesName.homeView);
+              },
+              title: "Create Account ",
+            ),
             SizedBox(height: 25),
             GestureDetector(
               onTap: () {

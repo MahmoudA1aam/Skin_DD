@@ -46,4 +46,9 @@ class TextStylesApp {
     color: Colors.grey,
     fontWeight: FontWeightHelper.semiBold600,
   );
+  static TextStyle font11primarycolore600 = const TextStyle(
+    fontSize: 11,
+    color: ColorsApp.primaryColor,
+    fontWeight: FontWeightHelper.semiBold600,
+  );
 }
