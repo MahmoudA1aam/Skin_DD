@@ -6,8 +6,17 @@ import 'package:skin_dd/features/home/presentation/widgets/active_item_bottom_na
 import '../../../../core/services/buttomnavigationbar_entity.dart';
 import 'naviagtion_bar_Item.dart';
 
-class CustomBotttomNavigatoionBar extends StatelessWidget {
+class CustomBotttomNavigatoionBar extends StatefulWidget {
   const CustomBotttomNavigatoionBar({super.key});
+
+  @override
+  State<CustomBotttomNavigatoionBar> createState() =>
+      _CustomBotttomNavigatoionBarState();
+}
+
+class _CustomBotttomNavigatoionBarState
+    extends State<CustomBotttomNavigatoionBar> {
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +40,21 @@ class CustomBotttomNavigatoionBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children:
-            getbuttomnavigationbarList.map((e) {
-              return NaviagtionBarItem(
-                isSelected: true,
-                buttomnavigationbarEntity: e,
+            getbuttomnavigationbarList.asMap().entries.map((e) {
+              int index = e.key;
+              var entity = e.value;
+              return Expanded(
+                flex: index == selectedIndex ? 3 : 2,
+                child: GestureDetector(
+                  onTap: () {
+                    selectedIndex = index;
+                    setState(() {});
+                  },
+                  child: NaviagtionBarItem(
+                    isSelected: selectedIndex == index,
+                    buttomnavigationbarEntity: entity,
+                  ),
+                ),
               );
             }).toList(),
       ),

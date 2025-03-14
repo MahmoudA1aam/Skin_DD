@@ -26,4 +26,9 @@ List<ButtomnavigationbarEntity> getbuttomnavigationbarList = [
     unActiveImage: "assets/icons/outline/user.svg",
     name: "Profile",
   ),
+  ButtomnavigationbarEntity(
+    activeImage: "assets/icons/bold/user.svg",
+    unActiveImage: "assets/icons/outline/user.svg",
+    name: "Profile",
+  ),
 ];
