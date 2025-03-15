@@ -12,6 +12,7 @@ class NaviagtionBarItem extends StatelessWidget {
   });
   final bool isSelected;
   final ButtomnavigationbarEntity buttomnavigationbarEntity;
+
   @override
   Widget build(BuildContext context) {
     double displayWidth = MediaQuery.of(context).size.width;
@@ -34,6 +35,7 @@ class NaviagtionBarItem extends StatelessWidget {
         child: Row(
           children: [
             AnimatedContainer(
+              alignment: Alignment.center,
               curve: Curves.fastLinearToSlowEaseIn,
               duration: Duration(seconds: 1),
               height: displayheight * 0.04,

@@ -25,7 +25,7 @@ List<ButtomnavigationbarEntity> getbuttomnavigationbarList = [
     unActiveImage: "assets/icons/outline/scan.svg",
     name: "Scan",
     image: SvgPicture.asset(
-      "assets/icons/bold/scanner.svg",
+      "assets/icons/outline/scan.svg",
       color: Colors.white,
     ),
   ),

@@ -4,8 +4,8 @@ import '../../../../core/services/buttomnavigationbar_entity.dart';
 import 'naviagtion_bar_Item.dart';
 
 class CustomBotttomNavigatoionBar extends StatefulWidget {
-  const CustomBotttomNavigatoionBar({super.key});
-
+  const CustomBotttomNavigatoionBar({super.key, required this.onChanged});
+  final ValueChanged<int> onChanged;
   @override
   State<CustomBotttomNavigatoionBar> createState() =>
       _CustomBotttomNavigatoionBarState();
@@ -42,6 +42,7 @@ class _CustomBotttomNavigatoionBarState
               var entity = e.value;
               return GestureDetector(
                 onTap: () {
+                  widget.onChanged(index);
                   selectedIndex = index;
                   setState(() {});
                 },
