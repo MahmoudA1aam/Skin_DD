@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:skin_dd/features/home/presentation/widgets/In_active_item_bottom_nav_bar.dart';
-import 'package:skin_dd/features/home/presentation/widgets/active_item_bottom_nav_bar.dart';
-
 import '../../../../core/services/buttomnavigationbar_entity.dart';
 import 'naviagtion_bar_Item.dart';
 
@@ -43,17 +40,14 @@ class _CustomBotttomNavigatoionBarState
             getbuttomnavigationbarList.asMap().entries.map((e) {
               int index = e.key;
               var entity = e.value;
-              return Expanded(
-                flex: index == selectedIndex ? 3 : 2,
-                child: GestureDetector(
-                  onTap: () {
-                    selectedIndex = index;
-                    setState(() {});
-                  },
-                  child: NaviagtionBarItem(
-                    isSelected: selectedIndex == index,
-                    buttomnavigationbarEntity: entity,
-                  ),
+              return GestureDetector(
+                onTap: () {
+                  selectedIndex = index;
+                  setState(() {});
+                },
+                child: NaviagtionBarItem(
+                  isSelected: selectedIndex == index,
+                  buttomnavigationbarEntity: entity,
                 ),
               );
             }).toList(),

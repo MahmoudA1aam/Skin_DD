@@ -1,10 +1,15 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
+
 class ButtomnavigationbarEntity {
-  final String activeImage;
   final String unActiveImage;
   final String name;
+  final Widget image;
 
   ButtomnavigationbarEntity({
-    required this.activeImage,
+    required this.image,
+
     required this.unActiveImage,
     required this.name,
   });
@@ -12,23 +17,21 @@ class ButtomnavigationbarEntity {
 
 List<ButtomnavigationbarEntity> getbuttomnavigationbarList = [
   ButtomnavigationbarEntity(
-    activeImage: "assets/icons/bold/home.svg",
     unActiveImage: "assets/icons/outline/home.svg",
     name: "Home",
+    image: SvgPicture.asset("assets/icons/bold/home.svg"),
   ),
   ButtomnavigationbarEntity(
-    activeImage: "assets/icons/bold/scanner.svg",
     unActiveImage: "assets/icons/outline/scan.svg",
     name: "Scan",
+    image: SvgPicture.asset(
+      "assets/icons/bold/scanner.svg",
+      color: Colors.white,
+    ),
   ),
   ButtomnavigationbarEntity(
-    activeImage: "assets/icons/bold/user.svg",
     unActiveImage: "assets/icons/outline/user.svg",
     name: "Profile",
-  ),
-  ButtomnavigationbarEntity(
-    activeImage: "assets/icons/bold/user.svg",
-    unActiveImage: "assets/icons/outline/user.svg",
-    name: "Profile",
+    image: SvgPicture.asset("assets/icons/bold/user.svg"),
   ),
 ];
