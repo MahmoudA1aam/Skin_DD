@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skin_dd/features/categories/presentation/ui/categories_view.dart';
 import 'package:skin_dd/features/home/presentation/widgets/home_view_body.dart';
 import 'package:skin_dd/features/profile/presentation/ui/profile_view.dart';
 import 'package:skin_dd/features/scanner/presentation/scanner_view.dart';
@@ -13,7 +14,13 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  List<Widget> screen = [HomeViewBody(), ScannerView(), ProfileView()];
+  List<Widget> screen = [
+    HomeViewBody(),
+    ScannerView(),
+
+    CategoriesView(),
+    ProfileView(),
+  ];
 
   int selectedIndex = 0;
 

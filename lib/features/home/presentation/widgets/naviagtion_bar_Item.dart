@@ -19,14 +19,14 @@ class NaviagtionBarItem extends StatelessWidget {
     double displayheight = MediaQuery.of(context).size.height;
     return SizedBox(
       height: displayheight * 0.042,
-      width: displayWidth * 0.24,
+      width: displayWidth * 0.25,
       child: AnimatedContainer(
         duration: Duration(seconds: 1),
         alignment: Alignment.center,
         padding: EdgeInsets.only(right: 5),
         curve: Curves.fastLinearToSlowEaseIn,
         height: displayheight * 0.04,
-        width: displayWidth * 0.22,
+        width: displayWidth * 0.23,
 
         decoration: BoxDecoration(
           color: isSelected ? Color(0xffEEEEEE) : Colors.transparent,
@@ -55,7 +55,7 @@ class NaviagtionBarItem extends StatelessWidget {
                         ),
               ),
             ),
-            SizedBox(width: 4),
+            SizedBox(width: 2),
             AnimatedOpacity(
               opacity: isSelected ? 1 : 0,
               duration: Duration(seconds: 1),
@@ -64,8 +64,8 @@ class NaviagtionBarItem extends StatelessWidget {
                 isSelected ? buttomnavigationbarEntity.name : '',
                 style: TextStyle(
                   color: ColorsApp.primaryColor,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 10,
                 ),
               ),
             ),

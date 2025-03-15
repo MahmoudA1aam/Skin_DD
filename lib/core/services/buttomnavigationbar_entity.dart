@@ -30,6 +30,14 @@ List<ButtomnavigationbarEntity> getbuttomnavigationbarList = [
     ),
   ),
   ButtomnavigationbarEntity(
+    unActiveImage: "assets/icons/outline/categories.svg",
+    name: "categories",
+    image: SvgPicture.asset(
+      "assets/icons/outline/categories.svg",
+      color: Colors.white,
+    ),
+  ),
+  ButtomnavigationbarEntity(
     unActiveImage: "assets/icons/outline/user.svg",
     name: "Profile",
     image: SvgPicture.asset("assets/icons/bold/user.svg"),

@@ -51,4 +51,9 @@ class TextStylesApp {
     color: ColorsApp.primaryColor,
     fontWeight: FontWeightHelper.semiBold600,
   );
+  static TextStyle font12white400 = const TextStyle(
+    fontSize: 12,
+    color: Colors.black,
+    fontWeight: FontWeightHelper.regular400,
+  );
 }

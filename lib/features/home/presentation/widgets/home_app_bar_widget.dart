@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:skin_dd/core/theming/text_style_app.dart';
 
-import '../../../../core/theming/colors_app.dart';
-
 class HomeAppbarWiget extends StatelessWidget {
   const HomeAppbarWiget({super.key});
 
