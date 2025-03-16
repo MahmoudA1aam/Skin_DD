@@ -16,7 +16,7 @@ class ImageProfileWidget extends StatelessWidget {
           radius: 65,
           child: CircleAvatar(
             radius: 60,
-            backgroundColor: ColorsApp.primaryColor,
+            backgroundImage: AssetImage("assets/images/Image.png"),
           ),
         ),
 

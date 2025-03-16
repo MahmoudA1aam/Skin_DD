@@ -12,18 +12,20 @@ class HomeViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          HomeAppbarWiget(),
-          SizedBox(height: 10),
-          RowTittleAndButtomText(title: "Skin Diseases"),
-          SizedBox(height: 10),
-          ListViewOfCategories(),
-          SizedBox(height: 10),
-          RowTittleAndButtomText(title: "Recent Scans"),
-          SizedBox(height: 10),
-          ListviewRecomendationDoctor(),
-        ],
+      child: SizedBox(
+        child: Column(
+          children: [
+            HomeAppbarWiget(),
+            SizedBox(height: 10),
+            RowTittleAndButtomText(title: "Skin Diseases"),
+            SizedBox(height: 10),
+            ListViewOfCategories(),
+            SizedBox(height: 10),
+            RowTittleAndButtomText(title: "Recent Scans"),
+            SizedBox(height: 10),
+            ListviewRecomendationDoctor(),
+          ],
+        ),
       ),
     );
   }
