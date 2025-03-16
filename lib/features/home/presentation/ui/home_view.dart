@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:skin_dd/features/categories/presentation/ui/categories_view.dart';
+import 'package:skin_dd/features/categories/presentation/ui/Skin_diseases_view.dart';
+
 import 'package:skin_dd/features/home/presentation/widgets/home_view_body.dart';
 import 'package:skin_dd/features/profile/presentation/ui/profile_view.dart';
 import 'package:skin_dd/features/scanner/presentation/scanner_view.dart';
@@ -18,7 +19,7 @@ class _HomeViewState extends State<HomeView> {
     HomeViewBody(),
     ScannerView(),
 
-    CategoriesView(),
+    SkinDiseasesView(),
     ProfileView(),
   ];
 

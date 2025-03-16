@@ -16,7 +16,7 @@ class HomeViewBody extends StatelessWidget {
         children: [
           HomeAppbarWiget(),
           SizedBox(height: 10),
-          RowTittleAndButtomText(title: "Categories"),
+          RowTittleAndButtomText(title: "Skin Diseases"),
           SizedBox(height: 10),
           ListViewOfCategories(),
           SizedBox(height: 10),
