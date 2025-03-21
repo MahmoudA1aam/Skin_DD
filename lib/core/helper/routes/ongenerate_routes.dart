@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skin_dd/core/helper/routes/routes_name.dart';
 import 'package:skin_dd/features/home/presentation/ui/home_view.dart';
+import 'package:skin_dd/features/scanner/presentation/scanner_view.dart';
 
 import '../../../features/auth/presentation/login/ui/login_view_.dart';
 import '../../../features/auth/presentation/sign_up/ui/sign_up_view.dart';
@@ -17,6 +18,8 @@ Route<dynamic>? onGenerateRoutes(RouteSettings settings) {
 
     case RoutesName.homeView:
       return MaterialPageRoute(builder: (context) => HomeView());
+    case RoutesName.scannerView:
+      return MaterialPageRoute(builder: (context) => ScannerView());
 
     default:
       return MaterialPageRoute(builder: (context) => const OnboardingView());

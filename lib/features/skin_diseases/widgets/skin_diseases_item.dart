@@ -1,45 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:skin_dd/core/theming/colors_app.dart';
-
-import '../../../../core/theming/text_style_app.dart';
-
-class SkinDiseasesView extends StatelessWidget {
-  const SkinDiseasesView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, right: 16, left: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Skin Diseases", style: TextStylesApp.font20Black600),
-          SizedBox(height: 10),
-
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: 5,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20,
-
-                crossAxisCount: 2,
-              ),
-              itemBuilder: (context, index) {
-                return SkinDiseasesItem();
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+import 'package:skin_dd/features/home/domain/entity/skin_desiease_entitty.dart';
 
 class SkinDiseasesItem extends StatelessWidget {
-  const SkinDiseasesItem({super.key});
-
+  const SkinDiseasesItem({super.key, required this.skinDesieaseEntitty});
+  final SkinDesieaseEntitty skinDesieaseEntitty;
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.sizeOf(context);
@@ -60,7 +24,10 @@ class SkinDiseasesItem extends StatelessWidget {
           width: mediaQuery.width * 0.4,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: ColorsApp.primaryColor,
+            image: DecorationImage(
+              image: AssetImage(skinDesieaseEntitty.image),
+              fit: BoxFit.fill,
+            ),
             boxShadow: const [
               /*  BoxShadow(
                 color: Colors.black26,
@@ -77,7 +44,7 @@ class SkinDiseasesItem extends StatelessWidget {
           top: 50,
           child: Center(
             child: Text(
-              "Exaema",
+              skinDesieaseEntitty.title,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 18,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theming/text_style_app.dart';
+import '../../domain/entity/skin_desiease_entitty.dart';
 
 class ListViewOfCategories extends StatelessWidget {
   const ListViewOfCategories({super.key});
@@ -12,9 +13,9 @@ class ListViewOfCategories extends StatelessWidget {
       height: height * 0.11,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 5,
+        itemCount: getSkinDesieaseList.length,
         itemBuilder: (context, index) {
-          return CategoryItem();
+          return CategoryItem(skinDesieaseEntitty: getSkinDesieaseList[index]);
         },
       ),
     );
@@ -22,8 +23,8 @@ class ListViewOfCategories extends StatelessWidget {
 }
 
 class CategoryItem extends StatelessWidget {
-  const CategoryItem({super.key});
-
+  const CategoryItem({super.key, required this.skinDesieaseEntitty});
+  final SkinDesieaseEntitty skinDesieaseEntitty;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,12 +36,15 @@ class CategoryItem extends StatelessWidget {
             width: 70,
 
             decoration: BoxDecoration(
-              color: Colors.amber,
+              image: DecorationImage(
+                image: AssetImage(skinDesieaseEntitty.image),
+              ),
+
               borderRadius: BorderRadius.circular(20),
             ),
           ),
           const SizedBox(height: 4),
-          Text("Category", style: TextStylesApp.font12white400),
+          Text(skinDesieaseEntitty.title, style: TextStylesApp.font12white400),
         ],
       ),
     );
