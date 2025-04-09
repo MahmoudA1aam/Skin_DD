@@ -10,7 +10,7 @@ class ListViewOfCategories extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.sizeOf(context).height;
     return SizedBox(
-      height: height * 0.11,
+      height: height * 0.13,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: getSkinDesieaseList.length,

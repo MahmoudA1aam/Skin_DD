@@ -19,10 +19,6 @@ class ProfileViewBody extends StatelessWidget {
       color: Color(0xFF1ABDCA),
       child: Column(
         children: [
-          Text(
-            "Profile",
-            style: TextStylesApp.font20Black600.copyWith(color: Colors.white),
-          ),
           Expanded(child: SizedBox()),
 
           Stack(

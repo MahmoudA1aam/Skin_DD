@@ -5,4 +5,7 @@ class RoutesName {
   static const String homeView = "/homeView";
   static const String splashView = "splashView";
   static const String scannerView = "ScannerView";
+  static const String profileView = "profileView";
+  static const String historyView = "historyView";
+  static const String categoryView = "categoryView";
 }

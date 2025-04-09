@@ -7,23 +7,26 @@ AppBar customAppBar({
   required String title,
   required bool isVisible,
   required BuildContext context,
+  Color? backgroundColor,
+  titleColor,
+  iconColor,
 }) {
   return AppBar(
     title: Text(
       title,
       style: TextStylesApp.font19Black700.copyWith(
-        color: ColorsApp.primaryColor,
+        color: titleColor ?? ColorsApp.primaryColor,
       ),
     ),
     centerTitle: true,
-    backgroundColor: Colors.transparent,
+    backgroundColor: backgroundColor ?? Colors.transparent,
     leading: Visibility(
       visible: isVisible,
       child: IconButton(
         onPressed: () {
           Navigator.pop(context);
         },
-        icon: const Icon(Icons.arrow_back_ios),
+        icon: Icon(Icons.arrow_back_ios, color: iconColor ?? Colors.black),
       ),
     ),
   );

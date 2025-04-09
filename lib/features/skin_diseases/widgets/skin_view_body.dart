@@ -9,32 +9,34 @@ class SkinViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, right: 16, left: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Skin Diseases", style: TextStylesApp.font20Black600),
-          SizedBox(height: 10),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10, right: 16, left: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Skin Diseases", style: TextStylesApp.font20Black600),
+            SizedBox(height: 10),
 
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: getSkinDesieaseList.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20,
+            Expanded(
+              child: GridView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: getSkinDesieaseList.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20,
 
-                crossAxisCount: 2,
+                  crossAxisCount: 2,
+                ),
+                itemBuilder: (context, index) {
+                  return SkinDiseasesItem(
+                    skinDesieaseEntitty: getSkinDesieaseList[index],
+                  );
+                },
               ),
-              itemBuilder: (context, index) {
-                return SkinDiseasesItem(
-                  skinDesieaseEntitty: getSkinDesieaseList[index],
-                );
-              },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
