@@ -18,7 +18,9 @@ class LoginViewBody extends StatefulWidget {
 }
 
 class _LoginViewBodyState extends State<LoginViewBody> {
-  TextEditingController controller = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   bool obscureText = true;
 
@@ -27,89 +29,108 @@ class _LoginViewBodyState extends State<LoginViewBody> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 24),
-            CustomTextFormField(
-              validator: (p0) {},
-              hintText: "Email",
-              controller: controller,
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 24),
-            CustomTextFormField(
-              validator: (p0) {},
-              hintText: "Password",
-              controller: controller,
-              obscureText: obscureText,
-              suffixIcon: IconButton(
-                onPressed: () {
-                  obscureText = !obscureText;
-                  setState(() {});
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              SizedBox(height: 24),
+              CustomTextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "please enter a valid email";
+                  }
                 },
-                icon:
-                    obscureText
-                        ? const Icon(Icons.visibility, color: Color(0XffC9CECF))
-                        : const Icon(
-                          Icons.visibility_off,
-                          color: Color(0XffC9CECF),
-                        ),
+                hintText: "Email",
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
               ),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "Forgot Password?",
-                  textAlign: TextAlign.end,
-                  style: TextStylesApp.font13Grey600.copyWith(
-                    color: ColorsApp.primaryColor,
+              const SizedBox(height: 24),
+              CustomTextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "please enter a valid password";
+                  }
+                },
+                hintText: "Password",
+                controller: passwordController,
+                obscureText: obscureText,
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    obscureText = !obscureText;
+                    setState(() {});
+                  },
+                  icon:
+                      obscureText
+                          ? const Icon(
+                            Icons.visibility,
+                            color: Color(0XffC9CECF),
+                          )
+                          : const Icon(
+                            Icons.visibility_off,
+                            color: Color(0XffC9CECF),
+                          ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Forgot Password?",
+                    textAlign: TextAlign.end,
+                    style: TextStylesApp.font13Grey600.copyWith(
+                      color: ColorsApp.primaryColor,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              CustomButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      RoutesName.homeView,
+                    );
+                  }
+                },
+                title: "Login",
+              ),
+              const SizedBox(height: 20),
+              GestureDetector(
+                onTap: () {},
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, RoutesName.signUpView);
+                  },
+                  child: const CreatAndNotHaveAccount(
+                    textHave: "Don't have an account?",
+                    creatAccount: " Sign Up ",
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            CustomButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, RoutesName.homeView);
-              },
-              title: "Login",
-            ),
-            const SizedBox(height: 20),
-            GestureDetector(
-              onTap: () {},
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, RoutesName.signUpView);
-                },
-                child: const CreatAndNotHaveAccount(
-                  textHave: "Don't have an account?",
-                  creatAccount: " Sign Up ",
-                ),
               ),
-            ),
-            const SizedBox(height: 15),
-            const OrDivider(),
-            const SizedBox(height: 15),
-            SocialLoginButton(
-              image: "assets/images/google_icon.svg",
-              title: "Sign in with Google",
-              onPressed: () {},
-            ),
-            const SizedBox(height: 15),
-            SocialLoginButton(
-              image: "assets/images/apple_icon.svg",
-              title: "Sign in with apple",
-              onPressed: () {},
-            ),
-            const SizedBox(height: 15),
-            SocialLoginButton(
-              image: "assets/images/facebook_icon.svg",
-              title: "Sign in with Facebook",
-              onPressed: () {},
-            ),
-          ],
+              const SizedBox(height: 15),
+              const OrDivider(),
+              const SizedBox(height: 15),
+              SocialLoginButton(
+                image: "assets/images/google_icon.svg",
+                title: "Sign in with Google",
+                onPressed: () {},
+              ),
+              const SizedBox(height: 15),
+              SocialLoginButton(
+                image: "assets/images/apple_icon.svg",
+                title: "Sign in with apple",
+                onPressed: () {},
+              ),
+              const SizedBox(height: 15),
+              SocialLoginButton(
+                image: "assets/images/facebook_icon.svg",
+                title: "Sign in with Facebook",
+                onPressed: () {},
+              ),
+            ],
+          ),
         ),
       ),
     );

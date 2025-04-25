@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:skin_dd/core/theming/colors_app.dart';
+
 import 'package:skin_dd/features/drawer/presentation/ui/custom_drawer.dart';
 
 import 'package:skin_dd/features/home/presentation/widgets/home_view_body.dart';
-
-import '../../../../core/helper/routes/routes_name.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
