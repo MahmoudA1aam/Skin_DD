@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skin_dd/features/auth/data/models/login_model/login_request_model.dart';
+import 'package:skin_dd/features/auth/presentation/login/cubits/login_cubit.dart';
 
 import 'package:skin_dd/features/auth/presentation/login/widgets/social_login_button.dart';
 
@@ -88,25 +91,23 @@ class _LoginViewBodyState extends State<LoginViewBody> {
               CustomButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      RoutesName.homeView,
+                    LoginRequestModel loginModel = LoginRequestModel(
+                      email: emailController.text,
+                      password: passwordController.text,
                     );
+                    context.read<LoginCubit>().login(loginModel: loginModel);
                   }
                 },
                 title: "Login",
               ),
               const SizedBox(height: 20),
               GestureDetector(
-                onTap: () {},
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, RoutesName.signUpView);
-                  },
-                  child: const CreatAndNotHaveAccount(
-                    textHave: "Don't have an account?",
-                    creatAccount: " Sign Up ",
-                  ),
+                onTap: () {
+                  Navigator.pushNamed(context, RoutesName.signUpView);
+                },
+                child: const CreatAndNotHaveAccount(
+                  textHave: "Don't have an account?",
+                  creatAccount: " Sign Up ",
                 ),
               ),
               const SizedBox(height: 15),

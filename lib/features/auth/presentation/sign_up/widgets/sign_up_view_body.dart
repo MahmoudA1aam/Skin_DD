@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skin_dd/features/auth/data/models/sign_up_model/sign_up_request_model.dart';
+import 'package:skin_dd/features/auth/presentation/sign_up/cubits/sign_up_cubit.dart';
 import 'package:skin_dd/features/auth/presentation/sign_up/widgets/password_vaildation.dart';
 
 import '../../../../../core/helper/app_regex.dart';
@@ -184,9 +187,16 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
               CustomButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      RoutesName.homeView,
+                    SignUpRequestModel signUpModel = SignUpRequestModel(
+                      birthdate: "2003-10-10",
+                      email: emailcontroller.text,
+                      lastName: namecontroller.text,
+                      firstName: namecontroller.text,
+                      password: passwordController.text,
+                      profileImage: "null",
+                    );
+                    context.read<SignUpCubit>().signUp(
+                      signUpModel: signUpModel,
                     );
                   }
                 },

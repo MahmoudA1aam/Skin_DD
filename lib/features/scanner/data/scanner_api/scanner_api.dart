@@ -8,9 +8,9 @@ import 'package:skin_dd/features/scanner/data/models/xception_response_model.dar
 
 import '../../../../core/errors/failures.dart';
 
-class ApiManager {
+class ScnnerApi {
   final Dio dio;
-  ApiManager({required this.dio});
+  ScnnerApi({required this.dio});
   Future<Either<Failure, XceptionResponseModel>> uploadImage({
     required XFile image,
   }) async {

@@ -11,7 +11,7 @@ class SignUpFailure extends SignUpState {
 }
 
 class SignUpSuccess extends SignUpState {
-  final SignUpModel signUpModel;
+  final SignUpResponseModel signUpModel;
   SignUpSuccess({required this.signUpModel});
 }
 
