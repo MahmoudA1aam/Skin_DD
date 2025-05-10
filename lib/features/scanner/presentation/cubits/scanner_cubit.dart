@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
@@ -7,14 +9,22 @@ import 'package:flutter/material.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
+import 'package:skin_dd/core/constans/shared_pref_constans.dart';
+import 'package:skin_dd/core/data/models/diagnosis_response_model.dart';
+import 'package:skin_dd/core/data/repos/diagnosis_repo.dart';
+import 'package:skin_dd/core/helper/shared_pref_helper/shared_pref.dart';
 import 'package:skin_dd/features/scanner/data/models/xception_response_model.dart';
 import 'package:skin_dd/features/scanner/data/repos/scanner_repo.dart';
+
+import '../../../../core/data/models/diagnosis_model.dart';
 
 part 'scanner_state.dart';
 
 class ScannerCubit extends Cubit<ScannerState> {
   final ScannerRepo scannerRepo;
-  ScannerCubit({required this.scannerRepo}) : super(ScannerInitial());
+  final DiagnosisRepo diagnosisRepo;
+  ScannerCubit({required this.scannerRepo, required this.diagnosisRepo})
+    : super(ScannerInitial());
   bool flashOn = false;
   bool imageSuccess = false;
 
@@ -40,7 +50,25 @@ class ScannerCubit extends Cubit<ScannerState> {
       emit(ScannerLoading());
       response.fold(
         (failure) => emit(ScannerFailure(errorMessage: failure.message)),
-        (response) => emit(ScannerSuccess(xceptionResponseModel: response)),
+        (response) async {
+          emit(ScannerSuccess(xceptionResponseModel: response));
+          var image = File(file.path);
+          final bytes = await image.readAsBytes();
+          final imageEncode = base64Encode(bytes);
+          var userId = SharedPreferencesHelper.getDate(
+            key: SharedPrefConstans.userId,
+          );
+          DiagnosisModel diagnosisModel = DiagnosisModel(
+            confidence: response.explanation!.confidence ?? 0,
+            diseaseName: response.explanation!.diseaseName ?? "",
+            diseaseExplanation:
+                response.explanation!.explanation ?? "Cancer not found",
+            diseaseHeatmap: response.gradcam!.heatmap ?? "",
+            userId: userId.toString(),
+            diseaseImage: imageEncode,
+          );
+          sendDiagnosis(diagnosisModel: diagnosisModel);
+        },
       );
 
       Timer(Duration(seconds: 2), () {
@@ -60,7 +88,25 @@ class ScannerCubit extends Cubit<ScannerState> {
 
       response.fold(
         (failure) => emit(ScannerFailure(errorMessage: failure.message)),
-        (response) => emit(ScannerSuccess(xceptionResponseModel: response)),
+        (response) async {
+          emit(ScannerSuccess(xceptionResponseModel: response));
+          var imageDisease = File(image.path);
+          final bytes = await imageDisease.readAsBytes();
+          final imageEncode = base64Encode(bytes);
+          var userId = SharedPreferencesHelper.getDate(
+            key: SharedPrefConstans.userId,
+          );
+          DiagnosisModel diagnosisModel = DiagnosisModel(
+            confidence: response.explanation!.confidence ?? 0.0,
+            diseaseName: response.explanation!.diseaseName ?? "",
+            diseaseExplanation:
+                response.explanation!.explanation ?? "Cancer not found",
+            diseaseHeatmap: response.gradcam!.heatmap ?? "",
+            userId: userId.toString(),
+            diseaseImage: imageEncode,
+          );
+          sendDiagnosis(diagnosisModel: diagnosisModel);
+        },
       );
     }
   }
@@ -94,6 +140,17 @@ class ScannerCubit extends Cubit<ScannerState> {
     emit(FlashModestate());
     await cameraController.setFlashMode(
       flashOn ? FlashMode.torch : FlashMode.off,
+    );
+  }
+
+  Future<void> sendDiagnosis({required DiagnosisModel diagnosisModel}) async {
+    emit(ScannerLoading());
+    var response = await diagnosisRepo.sendDiagnosis(
+      diagnosisModel: diagnosisModel,
+    );
+    response.fold(
+      (failure) => emit(ScannerFailure(errorMessage: failure.message)),
+      (response) => emit(SendDiagnosisSuccess(diagnosisModel: response)),
     );
   }
 }

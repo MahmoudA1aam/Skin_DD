@@ -48,9 +48,10 @@ class PageViewItem extends StatelessWidget {
                       key: SharedPrefConstans.keyOnboarding,
                       value: true,
                     );
-                    Navigator.pushReplacementNamed(
+                    Navigator.pushNamedAndRemoveUntil(
                       context,
                       RoutesName.loginView,
+                      (route) => false,
                     );
                   },
                   child: Text("Skip", style: TextStylesApp.font20Black600),

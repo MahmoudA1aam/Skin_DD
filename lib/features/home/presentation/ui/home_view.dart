@@ -1,74 +1,65 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-
-import 'package:skin_dd/features/drawer/presentation/ui/custom_drawer.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart' show SvgPicture;
+import 'package:skin_dd/features/home/presentation/cubits/home_cubit.dart';
 import 'package:skin_dd/features/home/presentation/widgets/home_view_body.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+import '../../../../core/data/repos/diagnosis_repo.dart';
+import '../../../../core/services/get_it/get_it.dart';
+import '../../../../core/theming/colors_app.dart';
+import '../../../scanner/presentation/ui/scanner_view.dart';
+import '../widgets/home_app_bar_widget.dart';
 
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView>
-    with SingleTickerProviderStateMixin {
-  late Animation<Offset> animation;
-
-  late AnimationController controller;
-  late Animation<double> _scaleAnimation;
-  @override
-  void initState() {
-    controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 200),
-      reverseDuration: Duration(milliseconds: 200),
-    );
-
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.8).animate(controller);
-    animation = Tween<Offset>(
-      begin: Offset(0, 0),
-      end: Offset(0.5, 0.1),
-    ).animate(controller);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-
-    super.dispose();
-  }
-
+class HomeView extends StatelessWidget {
+  const HomeView({
+    super.key,
+    required this.onTap,
+    required this.controllerValue,
+  });
+  final VoidCallback onTap;
+  final double controllerValue;
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        CustomDrawer(),
-        SlideTransition(
-          position: animation,
-          child: AnimatedBuilder(
-            animation: controller,
-            builder: (context, child) {
-              return Transform(
-                alignment: Alignment.center,
-                transform:
-                    Matrix4.identity()
-                      ..rotateZ(0.2 * controller.value)
-                      ..scale(_scaleAnimation.value), // زاوية دوران خفيفة
-                child: HomeViewBody(
-                  controllerValue: controller.value,
-                  onTap: () {
-                    controller.value == 0
-                        ? controller.forward()
-                        : controller.reverse();
-                  },
-                ),
-              );
-            },
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(controllerValue == 0 ? 0 : 16),
+          topLeft: Radius.circular(controllerValue == 0 ? 0 : 16),
+        ),
+      ),
+      child: Scaffold(
+        appBar: HomeAppBarWidget(
+          onpreseed: onTap,
+          controllerValue: controllerValue,
+        ),
+        backgroundColor: Colors.transparent,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            final List<CameraDescription> cameras;
+            cameras = await availableCameras();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ScannerView(cameras: cameras),
+              ),
+            );
+          },
+          backgroundColor: ColorsApp.primaryColor,
+          child: SvgPicture.asset(
+            "assets/icons/outline/scan.svg",
+            color: Colors.white,
           ),
         ),
-      ],
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        body: BlocProvider(
+          create:
+              (context) =>
+                  HomeCubite(diagnosisRepo: getIt.get<DiagnosisRepo>()),
+          child: HomeViewBody(onTap: onTap, controllerValue: controllerValue),
+        ),
+      ),
     );
   }
 }

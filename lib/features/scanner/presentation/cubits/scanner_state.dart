@@ -15,6 +15,11 @@ class ScannerSuccess extends ScannerState {
   ScannerSuccess({required this.xceptionResponseModel});
 }
 
+class SendDiagnosisSuccess extends ScannerState {
+  final DiagnosisResponseModel diagnosisModel;
+  SendDiagnosisSuccess({required this.diagnosisModel});
+}
+
 class ScannerLoading extends ScannerState {}
 
 class FlashModestate extends ScannerState {}

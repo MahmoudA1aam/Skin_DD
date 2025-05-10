@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:skin_dd/core/helper/routes/routes_name.dart';
+import 'package:skin_dd/core/helper/shared_pref_helper/shared_pref.dart';
 import 'package:skin_dd/core/theming/text_style_app.dart';
 import 'package:skin_dd/features/drawer/domain/entity/drawer_entity.dart';
 import 'package:skin_dd/features/drawer/presentation/widgets/cutom_item_drawer.dart';
+
+import '../../../../core/constans/shared_pref_constans.dart';
 
 class CustomDrawer extends StatelessWidget {
   CustomDrawer({super.key});
@@ -36,7 +39,12 @@ class CustomDrawer extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 10),
-                    Text("Mahmoud Alaam", style: TextStylesApp.font20white500),
+                    Text(
+                      SharedPreferencesHelper.getDate(
+                        key: SharedPrefConstans.userNmae,
+                      ).toString(),
+                      style: TextStylesApp.font20white500,
+                    ),
                   ],
                 ),
                 SizedBox(height: 150),

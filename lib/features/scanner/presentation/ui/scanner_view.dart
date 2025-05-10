@@ -5,6 +5,7 @@ import 'package:skin_dd/core/services/get_it/get_it.dart';
 import 'package:skin_dd/features/scanner/data/repos/scanner_repo.dart';
 import 'package:skin_dd/features/scanner/presentation/widgets/scanner_view_body.dart';
 
+import '../../../../core/data/repos/diagnosis_repo.dart';
 import '../cubits/scanner_cubit.dart';
 
 class ScannerView extends StatelessWidget {
@@ -17,7 +18,10 @@ class ScannerView extends StatelessWidget {
 
       body: BlocProvider(
         create:
-            (context) => ScannerCubit(scannerRepo: getIt.get<ScannerRepo>()),
+            (context) => ScannerCubit(
+              scannerRepo: getIt.get<ScannerRepo>(),
+              diagnosisRepo: getIt.get<DiagnosisRepo>(),
+            ),
         child: ScannerViewBody(cameras: cameras),
       ),
     );

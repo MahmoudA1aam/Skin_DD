@@ -12,7 +12,11 @@ class SkinDd extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: onGenerateRoutes,
       initialRoute:
-          isonboadingseen ? RoutesName.loginView : RoutesName.onBoardingView,
+          isonboadingseen
+              ? isAccessToken
+                  ? RoutesName.homeView
+                  : RoutesName.loginView
+              : RoutesName.onBoardingView,
     );
   }
 }

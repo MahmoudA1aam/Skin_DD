@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:skin_dd/core/helper/shared_pref_helper/shared_pref.dart';
 
 import 'package:skin_dd/core/theming/text_style_app.dart';
+
+import '../../../../core/constans/shared_pref_constans.dart';
 
 @override
 AppBar HomeAppBarWidget({
@@ -20,9 +23,13 @@ AppBar HomeAppBarWidget({
     ),
     centerTitle: true,
     title: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text("Hi, Mahmoud!", style: TextStylesApp.font16Black600),
+        Text(
+          "Hi, ${SharedPreferencesHelper.getDate(key: SharedPrefConstans.userNmae)}",
+          style: TextStylesApp.font16Black600,
+          textAlign: TextAlign.center,
+        ),
         const SizedBox(height: 5),
         Text("How Are you Today?", style: TextStylesApp.font11primarycolore600),
       ],

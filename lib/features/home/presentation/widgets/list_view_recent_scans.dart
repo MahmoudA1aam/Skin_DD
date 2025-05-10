@@ -1,22 +1,32 @@
-import 'package:flutter/material.dart';
-import 'package:skin_dd/features/home/domain/entity/skin_desiease_entitty.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:skin_dd/core/helper/functions_helper.dart';
+import 'package:skin_dd/core/helper/routes/routes_name.dart';
+
+import '../../../../core/data/models/get_diagnosis_model.dart';
 import '../../../../core/theming/text_style_app.dart';
 
 class ListViewRecentScans extends StatelessWidget {
-  const ListViewRecentScans({super.key});
-
+  const ListViewRecentScans({super.key, required this.getSkinDesieaseList});
+  final List<GetItemDiagnosisModel> getSkinDesieaseList;
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
+        shrinkWrap: true,
+
         padding: EdgeInsets.zero,
         itemCount: getSkinDesieaseList.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(bottom: 10),
-            child: RecomendationDoctorItem(
-              skinDesieaseEntitty: getSkinDesieaseList[index],
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, RoutesName.detailsView);
+              },
+              child: RecentScansItem(respone: getSkinDesieaseList[index]),
             ),
           );
         },
@@ -25,17 +35,26 @@ class ListViewRecentScans extends StatelessWidget {
   }
 }
 
-class RecomendationDoctorItem extends StatelessWidget {
-  const RecomendationDoctorItem({super.key, required this.skinDesieaseEntitty});
-  final SkinDesieaseEntitty skinDesieaseEntitty;
+class RecentScansItem extends StatelessWidget {
+  const RecentScansItem({super.key, required this.respone});
+  final GetItemDiagnosisModel respone;
+
   @override
   Widget build(BuildContext context) {
+    final Uint8List image = base64Decode(respone.diseaseImage ?? "");
+    String base64Data = respone.diseaseHeatmap!.replaceFirst(
+      "data:image/png;base64,",
+      "",
+    );
+
+    // فك تشفير السلسلة إلى Uint8List
+    Uint8List bytes = base64Decode(base64Data);
     return Row(
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(12.0),
-          child: Image.asset(
-            skinDesieaseEntitty.image,
+          child: Image.memory(
+            bytes,
             height: 110,
             width: 110,
             fit: BoxFit.cover,
@@ -47,10 +66,13 @@ class RecomendationDoctorItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              skinDesieaseEntitty.title,
+              respone.diseaseName ?? "",
               style: TextStylesApp.font16Black600,
             ),
-            Text("${TimeOfDay.now()}", style: TextStylesApp.font13Grey600),
+            Text(
+              "${filterDate(respone.diagnoseTime ?? "")}",
+              style: TextStylesApp.font13Grey600,
+            ),
           ],
         ),
       ],

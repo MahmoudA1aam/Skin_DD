@@ -90,7 +90,11 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
                   key: SharedPrefConstans.keyOnboarding,
                   value: true,
                 );
-                Navigator.pushReplacementNamed(context, RoutesName.loginView);
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RoutesName.loginView,
+                  (route) => false,
+                );
               },
               title: 'Next',
             ),

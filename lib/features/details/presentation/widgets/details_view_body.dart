@@ -7,6 +7,7 @@ import '../../../scanner/data/models/xception_response_model.dart';
 class DetailsViewBody extends StatelessWidget {
   const DetailsViewBody({super.key, required this.reposne});
   final XceptionResponseModel reposne;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

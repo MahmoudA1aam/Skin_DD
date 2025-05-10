@@ -51,6 +51,11 @@ class _ScannerViewBodyState extends State<ScannerViewBody> {
       child: BlocConsumer<ScannerCubit, ScannerState>(
         listener: (context, state) {
           if (state is ScannerSuccess) {
+            if (state is SendDiagnosisSuccess) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text("Success Send Diagnosis")));
+            }
             Navigator.pushNamed(
               context,
               RoutesName.detailsView,

@@ -20,8 +20,16 @@ Future<void> onBoardingseen() async {
   var key = SharedPreferencesHelper.getDate(
     key: SharedPrefConstans.keyOnboarding,
   );
+  var token = SharedPreferencesHelper.getDate(
+    key: SharedPrefConstans.userToken,
+  );
   if (key == true) {
     isonboadingseen = true;
+    if (token != null) {
+      isAccessToken = true;
+    } else {
+      isAccessToken = false;
+    }
 
     //Navigator.pushReplacementNamed(context, RoutesName.loginView);
   } else {

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:skin_dd/core/helper/shared_pref_helper/shared_pref.dart';
 
 import 'package:skin_dd/core/theming/text_style_app.dart';
 import 'package:skin_dd/features/profile/presentation/widgets/profile_item.dart';
 
+import '../../../../core/constans/shared_pref_constans.dart';
+import '../../../../core/helper/routes/routes_name.dart';
 import '../../../../core/theming/colors_app.dart';
 import 'image_profile_widget.dart';
 
@@ -51,50 +54,65 @@ class ProfileViewBody extends StatelessWidget {
                     ProfileItem(
                       containerColor: Color(0xffEAF2FF),
                       imageColor: ColorsApp.mainBlue,
-                      title: "Mahmoud Alaam",
+                      title:
+                          "${SharedPreferencesHelper.getDate(key: SharedPrefConstans.userNmae)}",
                       image: "assets/icons/outline/user.svg",
                     ),
                     SizedBox(height: 20),
                     ProfileItem(
                       imageColor: Color(0xFF22C55E),
                       containerColor: Color(0xFFE9FAEF),
-                      title: "Mahmoud15867@gmail.com",
+                      title:
+                          "${SharedPreferencesHelper.getDate(key: SharedPrefConstans.userEmail)}",
                       image: "assets/icons/email_icon.svg",
                     ),
                     SizedBox(height: 20),
                     ProfileItem(
                       imageColor: Color(0xffFF4C5E),
                       containerColor: Color(0xFFFFEEEF),
-                      title: "01/3/2005",
+                      title:
+                          "${SharedPreferencesHelper.getDate(key: SharedPrefConstans.userBirthdate)}",
                       image: "assets/icons/calendar.svg",
                     ),
                     SizedBox(height: 20),
-                    Container(
-                      height: 41,
-                      color: Color(0xFFB8E2E7),
-                      child: Row(
-                        children: [
-                          SizedBox(width: 20),
-                          SvgPicture.asset(
-                            "assets/icons/logout_icon.svg",
-                            color: ColorsApp.primaryColor,
-                          ),
-
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Logout",
-                                  textAlign: TextAlign.center,
-                                  style: TextStylesApp.font16grey600.copyWith(
-                                    color: ColorsApp.primaryColor,
-                                  ),
-                                ),
-                              ],
+                    GestureDetector(
+                      onTap: () {
+                        SharedPreferencesHelper.removeData(
+                          key: SharedPrefConstans.userToken,
+                        );
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          RoutesName.loginView,
+                          (route) => false,
+                        );
+                      },
+                      child: Container(
+                        height: 41,
+                        color: Color(0xFFB8E2E7),
+                        child: Row(
+                          children: [
+                            SizedBox(width: 20),
+                            SvgPicture.asset(
+                              "assets/icons/logout_icon.svg",
+                              color: ColorsApp.primaryColor,
                             ),
-                          ),
-                        ],
+
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Logout",
+                                    textAlign: TextAlign.center,
+                                    style: TextStylesApp.font16grey600.copyWith(
+                                      color: ColorsApp.primaryColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

@@ -6,6 +6,7 @@ import 'package:skin_dd/features/home/presentation/ui/home_view.dart';
 import 'package:skin_dd/features/profile/presentation/ui/profile_view.dart';
 
 import 'package:skin_dd/features/skin_diseases/presentation/ui/Skin_diseases_view.dart';
+import 'package:skin_dd/main_view.dart';
 
 import '../../../features/auth/presentation/login/ui/login_view_.dart';
 import '../../../features/auth/presentation/sign_up/ui/sign_up_view.dart';
@@ -24,7 +25,7 @@ Route<dynamic>? onGenerateRoutes(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => SignUpView());
 
     case RoutesName.homeView:
-      return MaterialPageRoute(builder: (context) => HomeView());
+      return MaterialPageRoute(builder: (context) => MainView());
 
     case RoutesName.profileView:
       return MaterialPageRoute(builder: (context) => ProfileView());
