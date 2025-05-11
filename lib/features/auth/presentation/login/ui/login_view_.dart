@@ -18,7 +18,12 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(title: "Login", isVisible: false, context: context),
+      appBar: customAppBar(
+        title: "Login",
+        isVisible: false,
+        context: context,
+        isVisibleAction: false,
+      ),
       body: BlocProvider(
         create: (context) => LoginCubit(authRepo: getIt.get<AuthRepo>()),
         child: LoginViewBlocListener(),

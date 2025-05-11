@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:skin_dd/core/data/models/delete_diagnosis_model.dart';
 import 'package:skin_dd/core/data/models/diagnosis_response_model.dart';
 import 'package:skin_dd/core/data/models/get_diagnosis_model.dart';
 import 'package:skin_dd/core/data/networking/api_manger.dart';
@@ -25,6 +26,20 @@ class DiagnosisRepo {
     required String userId,
   }) async {
     final resulte = await apiManger.getDiagnosis(userId: userId);
+    return resulte.fold(
+      (failure) => Left(SeverFailure(failure.message)),
+      (response) => Right(response),
+    );
+  }
+
+  Future<Either<Failure, DeleteDiagnosisResponseModel>> deleteDiagnosis({
+    required DeleteDiagnosisModel userId,
+    required String diagonoseId,
+  }) async {
+    final resulte = await apiManger.deleteDiagnosis(
+      userId: userId,
+      diagonoseId: diagonoseId,
+    );
     return resulte.fold(
       (failure) => Left(SeverFailure(failure.message)),
       (response) => Right(response),

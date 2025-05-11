@@ -1,4 +1,4 @@
-part of 'home_cubit.dart';
+/*part of 'home_cubit.dart';
 
 @immutable
 abstract class HomeCubiteState {}
@@ -16,3 +16,16 @@ class HomeCubiteFailure extends HomeCubiteState {
 }
 
 class HomeCubiteLoading extends HomeCubiteState {}
+
+class DetailsSuccess extends HomeCubiteState {
+  final DeleteDiagnosisResponseModel deleteDiagnosisResponseModel;
+  DetailsSuccess(this.deleteDiagnosisResponseModel);
+}
+
+class DetailsFailure extends HomeCubiteState {
+  final String message;
+  DetailsFailure(this.message);
+}
+
+class DetailsLoading extends HomeCubiteState {}
+*/

@@ -6,7 +6,9 @@ import '../theming/text_style_app.dart';
 AppBar customAppBar({
   required String title,
   required bool isVisible,
+  required bool isVisibleAction,
   required BuildContext context,
+  void Function()? onPressed,
   Color? backgroundColor,
   titleColor,
   iconColor,
@@ -20,6 +22,15 @@ AppBar customAppBar({
     ),
     centerTitle: true,
     backgroundColor: backgroundColor ?? Colors.transparent,
+    actions: [
+      Visibility(
+        visible: isVisibleAction,
+        child: IconButton(
+          onPressed: onPressed,
+          icon: Icon(Icons.delete, color: iconColor ?? Colors.black),
+        ),
+      ),
+    ],
     leading: Visibility(
       visible: isVisible,
       child: IconButton(

@@ -53,12 +53,7 @@ class HomeView extends StatelessWidget {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        body: BlocProvider(
-          create:
-              (context) =>
-                  HomeCubite(diagnosisRepo: getIt.get<DiagnosisRepo>()),
-          child: HomeViewBody(onTap: onTap, controllerValue: controllerValue),
-        ),
+        body: HomeViewBody(onTap: onTap, controllerValue: controllerValue),
       ),
     );
   }

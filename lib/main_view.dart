@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skin_dd/core/constans/shared_pref_constans.dart';
+import 'package:skin_dd/core/helper/shared_pref_helper/shared_pref.dart';
 
 import 'package:skin_dd/features/drawer/presentation/ui/custom_drawer.dart';
 import 'package:skin_dd/features/home/presentation/ui/home_view.dart';
 
-import 'package:skin_dd/features/home/presentation/widgets/home_view_body.dart';
+import 'package:skin_dd/features/scanner/presentation/cubits/scanner_cubit.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
@@ -18,6 +21,7 @@ class _MainViewState extends State<MainView>
 
   late AnimationController controller;
   late Animation<double> _scaleAnimation;
+  String userId = '';
   @override
   void initState() {
     controller = AnimationController(
@@ -31,6 +35,12 @@ class _MainViewState extends State<MainView>
       begin: Offset(0, 0),
       end: Offset(0.5, 0.1),
     ).animate(controller);
+    /* userId =
+        SharedPreferencesHelper.getDate(
+          key: SharedPrefConstans.userId,
+        ).toString();
+    context.read<ScannerCubit>().geAlltDiagnosis(userId: userId);*/
+
     super.initState();
   }
 

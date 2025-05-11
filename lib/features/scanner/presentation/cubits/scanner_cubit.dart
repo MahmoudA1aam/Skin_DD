@@ -13,10 +13,12 @@ import 'package:skin_dd/core/constans/shared_pref_constans.dart';
 import 'package:skin_dd/core/data/models/diagnosis_response_model.dart';
 import 'package:skin_dd/core/data/repos/diagnosis_repo.dart';
 import 'package:skin_dd/core/helper/shared_pref_helper/shared_pref.dart';
-import 'package:skin_dd/features/scanner/data/models/xception_response_model.dart';
+
 import 'package:skin_dd/features/scanner/data/repos/scanner_repo.dart';
 
+import '../../../../core/data/models/delete_diagnosis_model.dart';
 import '../../../../core/data/models/diagnosis_model.dart';
+import '../../../../core/data/models/get_diagnosis_model.dart';
 
 part 'scanner_state.dart';
 
@@ -51,7 +53,7 @@ class ScannerCubit extends Cubit<ScannerState> {
       response.fold(
         (failure) => emit(ScannerFailure(errorMessage: failure.message)),
         (response) async {
-          emit(ScannerSuccess(xceptionResponseModel: response));
+          emit(ScannerSuccess());
           var image = File(file.path);
           final bytes = await image.readAsBytes();
           final imageEncode = base64Encode(bytes);
@@ -67,7 +69,7 @@ class ScannerCubit extends Cubit<ScannerState> {
             userId: userId.toString(),
             diseaseImage: imageEncode,
           );
-          sendDiagnosis(diagnosisModel: diagnosisModel);
+          sendandgetOneItemDiagnosis(diagnosisModel: diagnosisModel);
         },
       );
 
@@ -89,7 +91,7 @@ class ScannerCubit extends Cubit<ScannerState> {
       response.fold(
         (failure) => emit(ScannerFailure(errorMessage: failure.message)),
         (response) async {
-          emit(ScannerSuccess(xceptionResponseModel: response));
+          emit(ScannerSuccess());
           var imageDisease = File(image.path);
           final bytes = await imageDisease.readAsBytes();
           final imageEncode = base64Encode(bytes);
@@ -105,7 +107,7 @@ class ScannerCubit extends Cubit<ScannerState> {
             userId: userId.toString(),
             diseaseImage: imageEncode,
           );
-          sendDiagnosis(diagnosisModel: diagnosisModel);
+          sendandgetOneItemDiagnosis(diagnosisModel: diagnosisModel);
         },
       );
     }
@@ -143,14 +145,70 @@ class ScannerCubit extends Cubit<ScannerState> {
     );
   }
 
-  Future<void> sendDiagnosis({required DiagnosisModel diagnosisModel}) async {
+  Future<void> sendandgetOneItemDiagnosis({
+    required DiagnosisModel diagnosisModel,
+  }) async {
     emit(ScannerLoading());
     var response = await diagnosisRepo.sendDiagnosis(
       diagnosisModel: diagnosisModel,
     );
     response.fold(
       (failure) => emit(ScannerFailure(errorMessage: failure.message)),
-      (response) => emit(SendDiagnosisSuccess(diagnosisModel: response)),
+      (response) {
+        emit(SendDiagnosisSuccess(diagnosisModel: response));
+        var userId = SharedPreferencesHelper.getDate(
+          key: SharedPrefConstans.userId,
+        );
+        emit(ScannerLoading());
+        getOneItemDiagnosis(
+          userId: userId.toString(),
+          diagnosisId: response.diagnosisId,
+        );
+      },
     );
+  }
+
+  Future<void> getOneItemDiagnosis({
+    required String userId,
+    required String diagnosisId,
+  }) async {
+    final resulte = await diagnosisRepo.getDiagnosis(userId: userId);
+    emit(ScannerLoading());
+    resulte.fold(
+      (failure) => emit(ScannerFailure(errorMessage: failure.message)),
+      (response) {
+        GetItemDiagnosisModel item = response.datas!.firstWhere(
+          (element) => element.diagnosisId == diagnosisId,
+        );
+        emit(GetDiagnosisSuccess(getItemDiagnosisModel: item));
+      },
+    );
+  }
+
+  Future<void> geAlltDiagnosis({required String userId}) async {
+    final resulte = await diagnosisRepo.getDiagnosis(userId: userId);
+    resulte.fold(
+      (failure) => emit(HomeCubiteFailure(message: failure.message)),
+      (response) {
+        emit(HomeCubiteSuccess(getListDiagnosis: response.datas ?? []));
+      },
+    );
+  }
+
+  Future<void> deleteDiagnosis({
+    required DeleteDiagnosisModel userId,
+    required String diagonoseId,
+  }) async {
+    final result = await diagnosisRepo.deleteDiagnosis(
+      userId: userId,
+      diagonoseId: diagonoseId,
+    );
+    result.fold((failure) => emit(DetailsFailure(failure.message)), (
+      response,
+    ) async {
+      emit(DetailsSuccess(response));
+      var id = SharedPreferencesHelper.getDate(key: SharedPrefConstans.userId);
+      geAlltDiagnosis(userId: id.toString());
+    });
   }
 }

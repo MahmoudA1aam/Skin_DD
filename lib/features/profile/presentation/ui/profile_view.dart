@@ -11,6 +11,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(
+        isVisibleAction: false,
         title: "Profile",
         context: context,
         isVisible: true,

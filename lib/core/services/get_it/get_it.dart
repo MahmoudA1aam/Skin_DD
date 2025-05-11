@@ -5,6 +5,7 @@ import 'package:skin_dd/core/data/repos/diagnosis_repo.dart';
 import 'package:skin_dd/features/auth/data/repos/auth_repo.dart';
 import 'package:skin_dd/features/auth/presentation/login/cubits/login_cubit.dart';
 import 'package:skin_dd/features/auth/presentation/sign_up/cubits/sign_up_cubit.dart';
+
 import 'package:skin_dd/features/home/presentation/cubits/home_cubit.dart';
 import 'package:skin_dd/features/scanner/data/scanner_api/scanner_api.dart';
 import 'package:skin_dd/features/scanner/data/repos/scanner_repo.dart';
@@ -24,9 +25,10 @@ void setupGetIt() {
   getIt.registerSingleton<DiagnosisRepo>(
     DiagnosisRepo(apiManger: getIt.get<ApiManger>()),
   );
-  getIt.registerSingleton<HomeCubite>(
+
+  /* getIt.registerSingleton<HomeCubite>(
     HomeCubite(diagnosisRepo: getIt.get<DiagnosisRepo>()),
-  );
+  );*/
   getIt.registerSingleton<ScannerCubit>(
     ScannerCubit(
       scannerRepo: getIt.get<ScannerRepo>(),

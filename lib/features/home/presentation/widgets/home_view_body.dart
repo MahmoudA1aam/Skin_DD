@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:skeletonizer/skeletonizer.dart';
-import 'package:skin_dd/core/helper/shared_pref_helper/shared_pref.dart';
-import 'package:skin_dd/core/services/get_it/get_it.dart';
-import 'package:skin_dd/features/home/presentation/cubits/home_cubit.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'package:skin_dd/features/home/presentation/widgets/list_view_categories.dart';
 import 'package:skin_dd/features/home/presentation/widgets/list_view_recent_scans.dart';
 import 'package:skin_dd/features/home/presentation/widgets/row_title_and_button.dart';
 
-import '../../../../core/constans/shared_pref_constans.dart';
-import '../../../../core/data/models/get_diagnosis_model.dart';
-import '../../../../core/data/repos/diagnosis_repo.dart';
+import '../../../../core/theming/text_style_app.dart';
+import '../../../scanner/presentation/cubits/scanner_cubit.dart';
 
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({
@@ -31,12 +26,11 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   String userId = '';
   @override
   void initState() {
-    // TODO: implement initState
-
-    userId =
+    /* userId =
         SharedPreferencesHelper.getDate(
           key: SharedPrefConstans.userId,
         ).toString();
+    context.read<HomeCubite>().getDiagnosis(userId: userId);*/
 
     super.initState();
   }
@@ -55,8 +49,8 @@ class _HomeViewBodyState extends State<HomeViewBody> {
             SizedBox(height: 10),
             RowTittleAndButtomText(title: "Recent Scans"),
             SizedBox(height: 10),
-            BlocBuilder<HomeCubite, HomeCubiteState>(
-              bloc: context.read<HomeCubite>()..getDiagnosis(userId: userId),
+            BlocConsumer<ScannerCubit, ScannerState>(
+              listener: (context, state) {},
               builder: (context, state) {
                 if (state is HomeCubiteFailure) {
                   return SliverToBoxAdapter(
@@ -68,7 +62,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                     getSkinDesieaseList: state.getListDiagnosis,
                   );
                 }
-                return CircularProgressIndicator();
+                return Expanded(child: ShammerListViewRecentScansDemo());
               },
             ),
           ],
@@ -78,22 +72,65 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   }
 }
 
-class ListViewRecentScansDemo extends StatelessWidget {
-  const ListViewRecentScansDemo({super.key, required this.getSkinDesieaseList});
-  final List<GetItemDiagnosisModel> getSkinDesieaseList;
+class ShammerListViewRecentScansDemo extends StatelessWidget {
+  const ShammerListViewRecentScansDemo({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: getSkinDesieaseList.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: RecentScansItem(respone: getSkinDesieaseList[index]),
-          );
-        },
-      ),
+    return ListView.builder(
+      padding: EdgeInsets.zero,
+      scrollDirection: Axis.vertical,
+      itemCount: 10,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: 10),
+          child: ShammerRecentScansItem(),
+        );
+      },
+    );
+  }
+}
+
+class ShammerRecentScansItem extends StatelessWidget {
+  const ShammerRecentScansItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // فك تشفير السلسلة إلى Uint8List
+
+    return Row(
+      children: [
+        Shimmer.fromColors(
+          baseColor: Colors.grey,
+          highlightColor: Colors.white,
+          child: Container(
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+
+        SizedBox(width: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Shimmer.fromColors(
+              baseColor: Colors.grey,
+              highlightColor: Colors.white,
+              child: Text("Disease Name", style: TextStylesApp.font16Black600),
+            ),
+            Shimmer.fromColors(
+              baseColor: Colors.grey,
+              highlightColor: Colors.white,
+              child: Text("Disease Name", style: TextStylesApp.font13Grey600),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

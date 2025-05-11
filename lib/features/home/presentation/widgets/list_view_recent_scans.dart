@@ -24,7 +24,11 @@ class ListViewRecentScans extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 10),
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, RoutesName.detailsView);
+                Navigator.pushNamed(
+                  context,
+                  RoutesName.detailsView,
+                  arguments: getSkinDesieaseList[index],
+                );
               },
               child: RecentScansItem(respone: getSkinDesieaseList[index]),
             ),

@@ -5,8 +5,7 @@ import 'package:skin_dd/features/auth/presentation/sign_up/cubits/sign_up_cubit.
 import 'package:skin_dd/features/auth/presentation/sign_up/widgets/password_vaildation.dart';
 
 import '../../../../../core/helper/app_regex.dart';
-import '../../../../../core/helper/routes/routes_name.dart';
-import '../../../../../core/theming/colors_app.dart';
+
 import '../../../../../core/theming/text_style_app.dart';
 import '../../../../../core/widgets/custom_button.dart';
 import '../../../../../core/widgets/custom_text_from_field.dart';
