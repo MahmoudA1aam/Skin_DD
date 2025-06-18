@@ -49,8 +49,8 @@ class GetItemDiagnosisModel {
     diseaseExplanation = json['disease_explanation'];
     diseaseHeatmap = json['disease_heatmap'];
     diseaseImage = json['disease_image'];
-    diseaseName = json['disease_name'].toString();
-    userid = json['userid'].toString();
+    diseaseName = json['disease_name'];
+    userid = json['userid'];
   }
 
   Map<String, dynamic> toJson() {

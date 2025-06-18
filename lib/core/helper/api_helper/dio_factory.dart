@@ -15,8 +15,6 @@ class DioFactory {
       dio = Dio();
       dio!
         ..options.baseUrl = ApiConstants.baseUrl
-        ..options.connectTimeout = timeOut
-        ..options.receiveTimeout = timeOut
         ..options.validateStatus = (status) => status! < 500;
 
       addDioInterceptor();

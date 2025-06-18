@@ -25,6 +25,8 @@ part 'scanner_state.dart';
 class ScannerCubit extends Cubit<ScannerState> {
   final ScannerRepo scannerRepo;
   final DiagnosisRepo diagnosisRepo;
+  List<GetItemDiagnosisModel> listOfFIveDiagnosisModel = [];
+  GetItemDiagnosisModel? getItemDiagnosisModel = GetItemDiagnosisModel();
   ScannerCubit({required this.scannerRepo, required this.diagnosisRepo})
     : super(ScannerInitial());
   bool flashOn = false;
@@ -40,7 +42,6 @@ class ScannerCubit extends Cubit<ScannerState> {
     emit(ScannerLoading());
     var responseanalyze = await analyzeImage(file);
     if (responseanalyze) {
-      emit(ScannerLoading());
       imageSuccess = true;
       if (flashOn) {
         cameraController.setFlashMode(FlashMode.off);
@@ -49,11 +50,9 @@ class ScannerCubit extends Cubit<ScannerState> {
 
       var response = await scannerRepo.uploadImage(image: file);
 
-      emit(ScannerLoading());
       response.fold(
         (failure) => emit(ScannerFailure(errorMessage: failure.message)),
         (response) async {
-          emit(ScannerSuccess());
           var image = File(file.path);
           final bytes = await image.readAsBytes();
           final imageEncode = base64Encode(bytes);
@@ -69,14 +68,13 @@ class ScannerCubit extends Cubit<ScannerState> {
             userId: userId.toString(),
             diseaseImage: imageEncode,
           );
+          Timer(Duration(seconds: 2), () {
+            emit(ImageSuccessState());
+            imageSuccess = false;
+          });
           sendandgetOneItemDiagnosis(diagnosisModel: diagnosisModel);
         },
       );
-
-      Timer(Duration(seconds: 2), () {
-        emit(ImageSuccessState());
-        imageSuccess = false;
-      });
     } else {
       emit(ScannerFailure(errorMessage: "try again"));
     }
@@ -91,7 +89,6 @@ class ScannerCubit extends Cubit<ScannerState> {
       response.fold(
         (failure) => emit(ScannerFailure(errorMessage: failure.message)),
         (response) async {
-          emit(ScannerSuccess());
           var imageDisease = File(image.path);
           final bytes = await imageDisease.readAsBytes();
           final imageEncode = base64Encode(bytes);
@@ -124,8 +121,6 @@ class ScannerCubit extends Cubit<ScannerState> {
     for (int i = 0; i < labels.length; i++) {
       final confidence = labels[i].confidence * 100;
       final labelText = labels[i].label;
-
-      // buffer.writeln('$labelText : ${confidence.toStringAsFixed(2)}%');
 
       if ((labelText == "Skin" && confidence >= 80) ||
           (labelText == "Hand" && confidence >= 95)) {
@@ -172,24 +167,43 @@ class ScannerCubit extends Cubit<ScannerState> {
     required String userId,
     required String diagnosisId,
   }) async {
-    final resulte = await diagnosisRepo.getDiagnosis(userId: userId);
     emit(ScannerLoading());
+    final resulte = await diagnosisRepo.getDiagnosis(userId: userId);
+
     resulte.fold(
       (failure) => emit(ScannerFailure(errorMessage: failure.message)),
       (response) {
         GetItemDiagnosisModel item = response.datas!.firstWhere(
           (element) => element.diagnosisId == diagnosisId,
         );
+        getItemDiagnosisModel = item;
         emit(GetDiagnosisSuccess(getItemDiagnosisModel: item));
       },
     );
   }
 
   Future<void> geAlltDiagnosis({required String userId}) async {
+    emit(HomeCubiteLoading());
     final resulte = await diagnosisRepo.getDiagnosis(userId: userId);
+
     resulte.fold(
       (failure) => emit(HomeCubiteFailure(message: failure.message)),
       (response) {
+        final listOfAllDiagnosisModel = response.datas ?? [];
+        listOfAllDiagnosisModel.sort((a, b) {
+          if (a.diagnoseTime == null) return 1;
+          if (b.diagnoseTime == null) return -1;
+          try {
+            DateTime dateA = DateTime.parse(a.diagnoseTime!);
+            DateTime dateB = DateTime.parse(b.diagnoseTime!);
+
+            return dateB.compareTo(dateA);
+          } catch (e) {
+            print('Could not parse date: $e');
+            return 0;
+          }
+        });
+        listOfFIveDiagnosisModel = listOfAllDiagnosisModel.take(6).toList();
         emit(HomeCubiteSuccess(getListDiagnosis: response.datas ?? []));
       },
     );

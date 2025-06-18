@@ -1,61 +1,51 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
 import '../../../../core/data/models/get_diagnosis_model.dart';
+import '../../../../core/helper/functions_helper.dart';
+import '../../../../core/theming/text_style_app.dart';
 
 class HistoryItem extends StatelessWidget {
-  const HistoryItem({super.key, required this.diagnosisItemModel});
-  final GetItemDiagnosisModel diagnosisItemModel;
+  const HistoryItem({super.key, required this.respone});
+  final GetItemDiagnosisModel respone;
+
   @override
   Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.sizeOf(context);
-    return Stack(
-      alignment: AlignmentDirectional.topCenter,
+    final Uint8List image = base64Decode(respone.diseaseImage ?? "");
+    String base64Data = respone.diseaseHeatmap!.replaceFirst(
+      "data:image/png;base64,",
+      "",
+    );
+
+    // فك تشفير السلسلة إلى Uint8List
+    Uint8List bytes = base64Decode(base64Data);
+    return Row(
       children: [
-        Container(
-          height: mediaQuery.height * 0.17,
-          width: mediaQuery.width * 0.4,
-          decoration: BoxDecoration(
-            color: Colors.white,
-
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        Container(
-          height: mediaQuery.height * 0.14,
-          width: mediaQuery.width * 0.38,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black, // لون الحدود
-              width: 2.0, // عرض الحدود
-            ),
-            borderRadius: BorderRadius.circular(
-              8.0,
-            ), // اختياري: إضافة زوايا دائرية للحدود
-          ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12.0),
           child: Image.memory(
-            base64Decode(
-              diagnosisItemModel.diseaseHeatmap!.split(',')[1] ?? '',
-            ),
-
-            fit: BoxFit.cover, // اختياري: لضبط كيفية عرض الصورة داخل الحاوية
+            bytes,
+            height: 110,
+            width: 110,
+            fit: BoxFit.cover,
           ),
         ),
-        Positioned(
-          bottom: -25,
-          top: 50,
-          child: Center(
-            child: Text(
-              diagnosisItemModel.diseaseName ?? '',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 18,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
+        SizedBox(width: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              respone.diseaseName ?? "",
+              style: TextStylesApp.font16Black600,
             ),
-          ),
+            Text(
+              "${filterDate(respone.diagnoseTime ?? "")}",
+              style: TextStylesApp.font13Grey600,
+            ),
+          ],
         ),
       ],
     );

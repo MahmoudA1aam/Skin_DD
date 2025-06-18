@@ -3,7 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:skin_dd/core/constans/api_constants.dart';
-import 'package:skin_dd/core/errors/custom_exception.dart';
+
 import 'package:skin_dd/features/scanner/data/models/xception_response_model.dart';
 
 import '../../../../core/errors/failures.dart';

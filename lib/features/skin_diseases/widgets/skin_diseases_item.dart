@@ -40,8 +40,8 @@ class SkinDiseasesItem extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: -25,
-          top: 50,
+          top: 55,
+          bottom: -5,
           child: Center(
             child: Text(
               skinDesieaseEntitty.title,

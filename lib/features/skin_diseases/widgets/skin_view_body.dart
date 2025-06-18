@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skin_dd/features/skin_diseases/widgets/skin_diseases_item.dart';
 
-import '../../../core/theming/text_style_app.dart';
 import '../../home/domain/entity/skin_desiease_entitty.dart';
 
 class SkinViewBody extends StatelessWidget {
@@ -15,9 +14,6 @@ class SkinViewBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Skin Diseases", style: TextStylesApp.font20Black600),
-            SizedBox(height: 10),
-
             Expanded(
               child: GridView.builder(
                 padding: EdgeInsets.zero,

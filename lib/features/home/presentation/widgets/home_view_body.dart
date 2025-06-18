@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:skin_dd/core/helper/routes/routes_name.dart';
 
 import 'package:skin_dd/features/home/presentation/widgets/list_view_categories.dart';
 import 'package:skin_dd/features/home/presentation/widgets/list_view_recent_scans.dart';
@@ -43,25 +44,36 @@ class _HomeViewBodyState extends State<HomeViewBody> {
         child: Column(
           children: [
             SizedBox(height: 10),
-            RowTittleAndButtomText(title: "Skin Diseases"),
+            RowTittleAndButtomText(title: "Skin Diseases", isSeeMore: false),
             SizedBox(height: 10),
             ListViewOfCategories(),
             SizedBox(height: 10),
-            RowTittleAndButtomText(title: "Recent Scans"),
+            RowTittleAndButtomText(
+              title: "Recent Scans",
+              isSeeMore: true,
+              onTap: () => Navigator.pushNamed(context, RoutesName.historyView),
+            ),
             SizedBox(height: 10),
-            BlocConsumer<ScannerCubit, ScannerState>(
-              listener: (context, state) {},
+            BlocBuilder<ScannerCubit, ScannerState>(
               builder: (context, state) {
                 if (state is HomeCubiteFailure) {
-                  return SliverToBoxAdapter(
-                    child: Center(child: Text(state.message)),
-                  );
+                  return Center(child: Text(state.message));
                 }
                 if (state is HomeCubiteSuccess) {
+                  if (state.getListDiagnosis.isEmpty) {
+                    return Expanded(
+                      child: Center(child: Text("No Recent Scans")),
+                    );
+                  }
                   return ListViewRecentScans(
-                    getSkinDesieaseList: state.getListDiagnosis,
+                    getSkinDesieaseList:
+                        context.read<ScannerCubit>().listOfFIveDiagnosisModel,
                   );
                 }
+                if (state is HomeCubiteLoading) {
+                  return Expanded(child: ShammerListViewRecentScansDemo());
+                }
+
                 return Expanded(child: ShammerListViewRecentScansDemo());
               },
             ),
@@ -80,7 +92,7 @@ class ShammerListViewRecentScansDemo extends StatelessWidget {
     return ListView.builder(
       padding: EdgeInsets.zero,
       scrollDirection: Axis.vertical,
-      itemCount: 10,
+      itemCount: 6,
       itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.only(bottom: 10),
@@ -126,7 +138,15 @@ class ShammerRecentScansItem extends StatelessWidget {
             Shimmer.fromColors(
               baseColor: Colors.grey,
               highlightColor: Colors.white,
-              child: Text("Disease Name", style: TextStylesApp.font13Grey600),
+              child: Text(
+                "Disease Explanation",
+                style: TextStylesApp.font13Grey600,
+              ),
+            ),
+            Shimmer.fromColors(
+              baseColor: Colors.grey,
+              highlightColor: Colors.white,
+              child: Text("Disease Date", style: TextStylesApp.font13Grey600),
             ),
           ],
         ),

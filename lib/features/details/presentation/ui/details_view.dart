@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skin_dd/core/cubit/diagnosis_cubit.dart';
 import 'package:skin_dd/core/data/models/delete_diagnosis_model.dart';
-import 'package:skin_dd/core/services/get_it/get_it.dart';
+
 import 'package:skin_dd/core/widgets/custom_app_bar.dart';
 
 import 'package:skin_dd/features/details/presentation/widgets/details_view_body.dart';
-import 'package:skin_dd/features/home/presentation/cubits/home_cubit.dart';
 
 import '../../../../core/data/models/get_diagnosis_model.dart';
-import '../../../../core/data/repos/diagnosis_repo.dart';
 import '../../../scanner/presentation/cubits/scanner_cubit.dart';
 
 class DetailsView extends StatelessWidget {
@@ -32,7 +31,7 @@ class DetailsView extends StatelessWidget {
           );
         },
       ),
-      body: SafeArea(child: DetailsViewBody(reposne: getItemDiagnosisModel)),
+      body: SafeArea(child: DetailsViewBody(resposne: getItemDiagnosisModel)),
     );
   }
 }

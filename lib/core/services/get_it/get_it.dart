@@ -6,12 +6,12 @@ import 'package:skin_dd/features/auth/data/repos/auth_repo.dart';
 import 'package:skin_dd/features/auth/presentation/login/cubits/login_cubit.dart';
 import 'package:skin_dd/features/auth/presentation/sign_up/cubits/sign_up_cubit.dart';
 
-import 'package:skin_dd/features/home/presentation/cubits/home_cubit.dart';
 import 'package:skin_dd/features/scanner/data/scanner_api/scanner_api.dart';
 import 'package:skin_dd/features/scanner/data/repos/scanner_repo.dart';
 import 'package:skin_dd/features/scanner/presentation/cubits/scanner_cubit.dart';
 
 import '../../../features/auth/data/auth_service/auht_service.dart';
+
 import '../../helper/api_helper/dio_factory.dart';
 
 final getIt = GetIt.instance;

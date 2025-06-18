@@ -47,26 +47,26 @@ class ApiManger {
   }) async {
     final List<ConnectivityResult> connectivityResult =
         await (Connectivity().checkConnectivity());
-    if (connectivityResult.contains(ConnectivityResult.mobile) ||
-        connectivityResult.contains(ConnectivityResult.wifi)) {
-      try {
-        final response = await dio.get(
-          "http://3.71.177.75:8000/get_diagnoses/${userId}",
-        );
+    /*  if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {*/
+    try {
+      final response = await dio.get(
+        "http://3.71.177.75:8000/get_diagnoses/${userId}",
+      );
 
-        final responseData = GetDiagnosisModel.fromJson(response.data);
-        if (response.statusCode! >= 200 && response.statusCode! < 300) {
-          return Right(responseData);
-        } else {
-          return Left(SeverFailure("not found---404"));
-        }
-      } on Exception catch (e) {
-        log("ApiManger ----- getDiagnosis ${e.toString()}");
-        return Left(SeverFailure(e.toString()));
+      final responseData = GetDiagnosisModel.fromJson(response.data);
+      if (response.statusCode! >= 200 && response.statusCode! < 300) {
+        return Right(responseData);
+      } else {
+        return Left(SeverFailure("not found---404"));
       }
-    } else {
-      return Left(SeverFailure("Check internet connection"));
+    } on Exception catch (e) {
+      log("ApiManger ----- getDiagnosis ${e.toString()}");
+      return Left(SeverFailure(e.toString()));
     }
+    /* } else {
+      return Left(SeverFailure("Check internet connection"));
+    }*/
   }
 
   Future<Either<Failure, DeleteDiagnosisResponseModel>> deleteDiagnosis({
