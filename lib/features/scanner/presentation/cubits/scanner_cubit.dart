@@ -15,20 +15,27 @@ import 'package:skin_dd/core/data/repos/diagnosis_repo.dart';
 import 'package:skin_dd/core/helper/shared_pref_helper/shared_pref.dart';
 
 import 'package:skin_dd/features/scanner/data/repos/scanner_repo.dart';
+import 'package:skin_dd/features/skin_diseases/data/repos/skin_diseases_category_repo.dart';
 
 import '../../../../core/data/models/delete_diagnosis_model.dart';
 import '../../../../core/data/models/diagnosis_model.dart';
 import '../../../../core/data/models/get_diagnosis_model.dart';
+import '../../../skin_diseases/data/models/skin_disease_category_model.dart';
 
 part 'scanner_state.dart';
 
 class ScannerCubit extends Cubit<ScannerState> {
   final ScannerRepo scannerRepo;
   final DiagnosisRepo diagnosisRepo;
+  final SkinDiseasesCategoryRepo skinDiseasesCategoryRepo;
   List<GetItemDiagnosisModel> listOfFIveDiagnosisModel = [];
+  List<Data> listDiseaseCategory = [];
   GetItemDiagnosisModel? getItemDiagnosisModel = GetItemDiagnosisModel();
-  ScannerCubit({required this.scannerRepo, required this.diagnosisRepo})
-    : super(ScannerInitial());
+  ScannerCubit({
+    required this.scannerRepo,
+    required this.diagnosisRepo,
+    required this.skinDiseasesCategoryRepo,
+  }) : super(ScannerInitial());
   bool flashOn = false;
   bool imageSuccess = false;
 
@@ -224,5 +231,21 @@ class ScannerCubit extends Cubit<ScannerState> {
       var id = SharedPreferencesHelper.getDate(key: SharedPrefConstans.userId);
       geAlltDiagnosis(userId: id.toString());
     });
+  }
+
+  void getSkinDiseasesCategory() async {
+    emit(SkindiseasecategoryLoading());
+    final result = await skinDiseasesCategoryRepo.getSkinDiseases();
+    result.fold(
+      (failure) => emit(SkindiseasecategoryFailure(message: failure.message)),
+      (response) {
+        listDiseaseCategory = response.data ?? [];
+        emit(
+          SkindiseasecategorySuccess(
+            getListDiseaseCategory: response.data ?? [],
+          ),
+        );
+      },
+    );
   }
 }

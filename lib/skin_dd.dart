@@ -11,6 +11,7 @@ import 'package:skin_dd/core/services/get_it/get_it.dart';
 
 import 'package:skin_dd/features/scanner/data/repos/scanner_repo.dart';
 import 'package:skin_dd/features/scanner/presentation/cubits/scanner_cubit.dart';
+import 'package:skin_dd/features/skin_diseases/data/repos/skin_diseases_category_repo.dart';
 
 class SkinDd extends StatefulWidget {
   const SkinDd({super.key});
@@ -34,10 +35,15 @@ class _SkinDdState extends State<SkinDd> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create:
-          (context) => ScannerCubit(
-            diagnosisRepo: getIt.get<DiagnosisRepo>(),
-            scannerRepo: getIt.get<ScannerRepo>(),
-          )..geAlltDiagnosis(userId: userId),
+          (context) =>
+              ScannerCubit(
+                  skinDiseasesCategoryRepo:
+                      getIt.get<SkinDiseasesCategoryRepo>(),
+                  diagnosisRepo: getIt.get<DiagnosisRepo>(),
+                  scannerRepo: getIt.get<ScannerRepo>(),
+                )
+                ..geAlltDiagnosis(userId: userId)
+                ..getSkinDiseasesCategory(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: onGenerateRoutes,

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/helper/routes/routes_name.dart';
 import '../../../../core/theming/text_style_app.dart';
-import '../../domain/entity/skin_desiease_entitty.dart';
+import '../../../skin_diseases/data/models/skin_disease_category_model.dart';
 
 class ListViewOfCategories extends StatelessWidget {
-  const ListViewOfCategories({super.key});
-
+  const ListViewOfCategories({super.key, required this.getSkinDesieaseList});
+  final List<Data> getSkinDesieaseList;
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.sizeOf(context).height;
@@ -15,7 +16,15 @@ class ListViewOfCategories extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: getSkinDesieaseList.length,
         itemBuilder: (context, index) {
-          return CategoryItem(skinDesieaseEntitty: getSkinDesieaseList[index]);
+          return GestureDetector(
+            onTap:
+                () => Navigator.pushNamed(
+                  context,
+                  RoutesName.skinDiseasesdetails,
+                  arguments: getSkinDesieaseList[index],
+                ),
+            child: CategoryItem(skinDesieaseItem: getSkinDesieaseList[index]),
+          );
         },
       ),
     );
@@ -23,28 +32,38 @@ class ListViewOfCategories extends StatelessWidget {
 }
 
 class CategoryItem extends StatelessWidget {
-  const CategoryItem({super.key, required this.skinDesieaseEntitty});
-  final SkinDesieaseEntitty skinDesieaseEntitty;
+  const CategoryItem({super.key, required this.skinDesieaseItem});
+  final Data skinDesieaseItem;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6),
       child: Column(
         children: [
-          Container(
-            height: 60,
-            width: 70,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
 
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(skinDesieaseEntitty.image),
-              ),
-
-              borderRadius: BorderRadius.circular(20),
-            ),
+            child:
+                skinDesieaseItem.diseaseImage == null ||
+                        skinDesieaseItem.diseaseImage == ""
+                    ? Image.asset(
+                      "assets/images/Image.png",
+                      height: 60,
+                      width: 70,
+                      fit: BoxFit.cover,
+                    )
+                    : Image.network(
+                      skinDesieaseItem.diseaseImage ?? "",
+                      height: 60,
+                      width: 70,
+                      fit: BoxFit.cover,
+                    ),
           ),
           const SizedBox(height: 4),
-          Text(skinDesieaseEntitty.title, style: TextStylesApp.font12white400),
+          Text(
+            skinDesieaseItem.diseaseName ?? "Cancer",
+            style: TextStylesApp.font12white400,
+          ),
         ],
       ),
     );
