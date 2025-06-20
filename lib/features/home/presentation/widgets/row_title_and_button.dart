@@ -18,6 +18,7 @@ class RowTittleAndButtomText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(title, style: TextStylesApp.font16Black600),
+
         Visibility(
           visible: isSeeMore,
           child: GestureDetector(

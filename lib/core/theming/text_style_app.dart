@@ -24,6 +24,11 @@ class TextStylesApp {
     color: Colors.black,
     fontWeight: FontWeightHelper.semiBold600,
   );
+  static TextStyle font16blue600 = const TextStyle(
+    fontSize: 16,
+    color: Colors.blue,
+    fontWeight: FontWeightHelper.semiBold600,
+  );
 
   static TextStyle font16grey600 = const TextStyle(
     fontSize: 16,

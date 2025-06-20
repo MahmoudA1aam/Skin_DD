@@ -13,6 +13,8 @@ import 'package:skin_dd/features/scanner/data/repos/scanner_repo.dart';
 import 'package:skin_dd/features/scanner/presentation/cubits/scanner_cubit.dart';
 import 'package:skin_dd/features/skin_diseases/data/repos/skin_diseases_category_repo.dart';
 
+
+
 class SkinDd extends StatefulWidget {
   const SkinDd({super.key});
 

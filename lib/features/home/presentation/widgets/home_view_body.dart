@@ -8,11 +8,19 @@ import 'package:skin_dd/features/home/presentation/widgets/list_view_categories.
 import 'package:skin_dd/features/home/presentation/widgets/list_view_recent_scans.dart';
 import 'package:skin_dd/features/home/presentation/widgets/row_title_and_button.dart';
 
+
+import '../../../../core/helper/routes/routes_name.dart';
+import '../../../../core/theming/text_style_app.dart';
+import '../../../scanner/presentation/cubits/scanner_cubit.dart';
+import 'navigate_chatbot_view.dart';
+import 'options_for_application_view.dart';
+
 import '../../../../core/services/get_it/get_it.dart';
 import '../../../../core/theming/colors_app.dart';
 import '../../../../core/theming/text_style_app.dart';
 import '../../../scanner/presentation/cubits/scanner_cubit.dart';
 import '../../../skin_diseases/data/repos/skin_diseases_category_repo.dart';
+
 
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({
