@@ -56,7 +56,7 @@ class LoginViewBlocConsumer extends StatelessWidget {
           var emailll = SharedPreferencesHelper.getDate(
             key: SharedPrefConstans.userEmail,
           );
-          if (profileImage != null) {
+          if (profileImage != null || profileImage != "") {
             await SharedPreferencesHelper.saveDate(
               key: SharedPrefConstans.profileImage,
               value: profileImage,

@@ -60,11 +60,6 @@ class DetailsFailure extends ScannerState {
 
 class DetailsLoading extends ScannerState {}
 
-class SkindiseasecategorySuccess extends ScannerState {
-  final List<Data> getListDiseaseCategory;
-  SkindiseasecategorySuccess({required this.getListDiseaseCategory});
-}
-
 class SkindiseasecategoryFailure extends ScannerState {
   final String message;
   SkindiseasecategoryFailure({required this.message});

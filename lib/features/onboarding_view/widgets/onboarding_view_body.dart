@@ -88,7 +88,7 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
               onPressed: () {
                 SharedPreferencesHelper.saveDate(
                   key: SharedPrefConstans.keyOnboarding,
-                  value: true,
+                  value: "true",
                 );
                 Navigator.pushNamedAndRemoveUntil(
                   context,

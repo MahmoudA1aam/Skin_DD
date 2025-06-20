@@ -5,7 +5,6 @@ import 'package:skin_dd/features/scanner/presentation/cubits/scanner_cubit.dart'
 import 'package:skin_dd/features/skin_diseases/presentation/widgets/skin_diseases_item.dart';
 
 import '../../../../core/helper/routes/routes_name.dart';
-import '../../../home/domain/entity/skin_desiease_entitty.dart';
 
 class SkinViewBody extends StatelessWidget {
   const SkinViewBody({super.key});

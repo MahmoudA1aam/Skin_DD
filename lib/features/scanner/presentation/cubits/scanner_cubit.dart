@@ -195,7 +195,7 @@ class ScannerCubit extends Cubit<ScannerState> {
 
     resulte.fold(
       (failure) => emit(HomeCubiteFailure(message: failure.message)),
-      (response) {
+      (response) async {
         final listOfAllDiagnosisModel = response.datas ?? [];
         listOfAllDiagnosisModel.sort((a, b) {
           if (a.diagnoseTime == null) return 1;
@@ -211,6 +211,7 @@ class ScannerCubit extends Cubit<ScannerState> {
           }
         });
         listOfFIveDiagnosisModel = listOfAllDiagnosisModel.take(6).toList();
+        await getSkinDiseasesCategory();
         emit(HomeCubiteSuccess(getListDiagnosis: response.datas ?? []));
       },
     );
@@ -233,18 +234,13 @@ class ScannerCubit extends Cubit<ScannerState> {
     });
   }
 
-  void getSkinDiseasesCategory() async {
+  Future<void> getSkinDiseasesCategory() async {
     emit(SkindiseasecategoryLoading());
     final result = await skinDiseasesCategoryRepo.getSkinDiseases();
     result.fold(
       (failure) => emit(SkindiseasecategoryFailure(message: failure.message)),
       (response) {
         listDiseaseCategory = response.data ?? [];
-        emit(
-          SkindiseasecategorySuccess(
-            getListDiseaseCategory: response.data ?? [],
-          ),
-        );
       },
     );
   }

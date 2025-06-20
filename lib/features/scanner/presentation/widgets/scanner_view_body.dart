@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skin_dd/core/data/models/get_diagnosis_model.dart';
+
 
 import 'package:skin_dd/core/helper/routes/routes_name.dart';
 
