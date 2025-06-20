@@ -1,8 +1,6 @@
 class AppRegex {
   static bool isEmailValid(String email) {
-    return RegExp(
-      r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$',
-    ).hasMatch(email);
+    return RegExp(r'^.+@[g]+[m]+[a]+[i]+[l]+[.]+[c]+[o]+[m]').hasMatch(email);
   }
 
   static bool isPasswordValid(String password) {

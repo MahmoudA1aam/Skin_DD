@@ -1,4 +1,5 @@
 /*import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -20,6 +21,7 @@ class HomeCubite extends Cubit<HomeCubiteState> {
     resulte.fold(
       (failure) => emit(HomeCubiteFailure(message: failure.message)),
       (response) {
+        log("response: ${response.datas.toString()}");
         emit(HomeCubiteSuccess(getListDiagnosis: response.datas ?? []));
       },
     );

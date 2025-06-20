@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:skin_dd/core/helper/functions_helper.dart';
+
 import 'package:skin_dd/core/helper/routes/routes_name.dart';
+import 'package:skin_dd/features/home/presentation/widgets/recent_scans_item.dart';
 
 import '../../../../core/data/models/get_diagnosis_model.dart';
-import '../../../../core/theming/text_style_app.dart';
 
 class ListViewRecentScans extends StatelessWidget {
   const ListViewRecentScans({super.key, required this.getSkinDesieaseList});
@@ -48,14 +46,6 @@ class RecentScansItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final Uint8List image = base64Decode(respone.diseaseImage ?? "");
-    // String base64Data = respone.diseaseHeatmap!.replaceFirst(
-    //   "data:image/png;base64,",
-    //   "",
-    // );
-
-    // فك تشفير السلسلة إلى Uint8List
-    //Uint8List bytes = base64Decode(base64Data);
     Uint8List? bytes;
     if (respone.diseaseHeatmap != null && respone.diseaseHeatmap!.isNotEmpty) {
       try {

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skin_dd/core/constans/shared_pref_constans.dart';
-import 'package:skin_dd/core/helper/shared_pref_helper/shared_pref.dart';
 
 import 'package:skin_dd/features/drawer/presentation/ui/custom_drawer.dart';
 import 'package:skin_dd/features/home/presentation/ui/home_view.dart';
-
-import 'package:skin_dd/features/scanner/presentation/cubits/scanner_cubit.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});

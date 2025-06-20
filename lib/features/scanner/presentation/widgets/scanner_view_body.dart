@@ -1,11 +1,14 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skin_dd/core/data/models/get_diagnosis_model.dart';
 
 import 'package:skin_dd/core/helper/routes/routes_name.dart';
 
 import 'package:skin_dd/features/scanner/presentation/cubits/scanner_cubit.dart';
 import 'package:skin_dd/features/scanner/presentation/widgets/scanner_view_body_bloc_consumer.dart';
+
+import '../../../../core/helper/functions_helper.dart';
 
 class ScannerViewBody extends StatelessWidget {
   const ScannerViewBody({super.key, required this.cameras});
@@ -30,16 +33,16 @@ class ScannerViewBody extends StatelessWidget {
             );
           }
           if (state is ScannerFailure) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+            SnackBarService.showErrorMessage(state.errorMessage);
           }
         },
         builder: (context, state) {
           return Stack(
             children: [
               ScannerViewBodyBlocConsumer(cameras: cameras),
-              if (state is ScannerLoading)
+              if (state is ScannerLoading ||
+                  state is ImageSuccessState ||
+                  state is SendDiagnosisSuccess)
                 Container(
                   color: Colors.black54, // خلفية شفافة لتغطية الشاشة
                   child: const Center(

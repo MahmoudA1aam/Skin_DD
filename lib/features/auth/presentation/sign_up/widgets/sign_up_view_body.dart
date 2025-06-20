@@ -1,5 +1,11 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:skin_dd/features/auth/data/models/sign_up_model/sign_up_request_model.dart';
 import 'package:skin_dd/features/auth/presentation/sign_up/cubits/sign_up_cubit.dart';
 import 'package:skin_dd/features/auth/presentation/sign_up/widgets/password_vaildation.dart';
@@ -9,7 +15,9 @@ import '../../../../../core/helper/app_regex.dart';
 import '../../../../../core/theming/text_style_app.dart';
 import '../../../../../core/widgets/custom_button.dart';
 import '../../../../../core/widgets/custom_text_from_field.dart';
+import '../../../../profile/presentation/widgets/image_profile_widget.dart';
 import '../../login/widgets/have_account.dart';
+import 'image_profile_sign_up.dart';
 
 class SignUpViewBody extends StatefulWidget {
   const SignUpViewBody({super.key});
@@ -20,9 +28,12 @@ class SignUpViewBody extends StatefulWidget {
 
 class _SignUpViewBodyState extends State<SignUpViewBody> {
   TextEditingController emailcontroller = TextEditingController();
-  TextEditingController namecontroller = TextEditingController();
+  TextEditingController firestnamecontroller = TextEditingController();
+  TextEditingController lastnamecontroller = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool obscureText = false;
+  TextEditingController birthdayController = TextEditingController();
+  DateTime? _selectedDate;
+  bool obscureText = true;
   List<String> option = ["Male", "Female"];
   String? currentvalue;
   bool ischeked1 = false;
@@ -32,12 +43,30 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
   bool hasNumber = false;
   bool hasSpecialCharacters = false;
   bool hasMinLength = false;
+  String? profileImageBase64;
+  late XFile imageFile;
 
   @override
   void initState() {
     setupPasswordControllerListener();
+    imageFile = XFile('');
     // TODO: implement initState
     super.initState();
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+        birthdayController.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
+    }
   }
 
   void setupPasswordControllerListener() {
@@ -56,6 +85,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
 
   @override
   Widget build(BuildContext context) {
+    var mediaQuery = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: SingleChildScrollView(
@@ -65,15 +95,42 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
             children: [
               Image.asset('assets/images/image_splash_native.png',height: 230,),
 
-              const SizedBox(height: 24),
-              CustomTextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "please enter a valid name";
-                  }
+              const SizedBox(height: 10),
+              GestureDetector(
+                onTap: () {
+                  showImagePickerOptions(context);
                 },
-                hintText: "Name",
-                controller: namecontroller,
+                child: ImageProfileSignUp(image: imageFile),
+              ),
+              SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: mediaQuery.width * 0.45,
+                    child: CustomTextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "please enter a valid name";
+                        }
+                      },
+                      hintText: "firest name",
+                      controller: firestnamecontroller,
+                    ),
+                  ),
+                  SizedBox(
+                    width: mediaQuery.width * 0.45,
+                    child: CustomTextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "please enter a valid name";
+                        }
+                      },
+                      hintText: "last name",
+                      controller: lastnamecontroller,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 24),
               CustomTextFormField(
@@ -85,8 +142,29 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                     return "please enter a valid email";
                   }
                 },
+                keyboardType: TextInputType.emailAddress,
                 hintText: "Email",
                 controller: emailcontroller,
+              ),
+              const SizedBox(height: 24),
+              CustomTextFormField(
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.calendar_today),
+                  onPressed: () => _selectDate(context),
+                ),
+                readOnly: true,
+                ontap: () => _selectDate(context),
+
+                validator: (value) {
+                  if (value == null ||
+                      value.isEmpty ||
+                      value.trim().isEmpty ||
+                      !AppRegex.hasNumber(value)) {
+                    return "please enter a valid email";
+                  }
+                },
+                hintText: "birth date",
+                controller: birthdayController,
               ),
               const SizedBox(height: 24),
               CustomTextFormField(
@@ -130,62 +208,20 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                 hasNumber: hasNumber,
                 hasMinLength: hasMinLength,
               ),
-              const SizedBox(height: 24),
 
-              /*     Row(
-                children: [
-                  SizedBox(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width * 0.5 - (16),
-                    child: RadioListTile(
-                      activeColor: ColorsApp.primaryColor,
-
-                      title: Text(
-                        option[0],
-                        style: TextStylesApp.font16Black600,
-                      ),
-                      value: option[0],
-                      groupValue: currentvalue,
-                      onChanged: (value) {
-                        setState(() {
-                          currentvalue = value.toString();
-                        });
-                      },
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width * 0.5 - (16),
-                    child: RadioListTile(
-                      activeColor: ColorsApp.primaryColor,
-
-                      title: Text(
-                        option[1],
-                        style: TextStylesApp.font16Black600,
-                      ),
-                      value: option[1],
-                      groupValue: currentvalue,
-                      onChanged: (value) {
-                        setState(() {
-                          currentvalue = value.toString();
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),*/
               SizedBox(height: 25),
               CustomButton(
                 onPressed: () {
+                  print("++++++++++++++++++++${profileImageBase64.toString()}");
+                  log("++++++++++++++++++++${profileImageBase64.toString()}");
                   if (formKey.currentState!.validate()) {
                     SignUpRequestModel signUpModel = SignUpRequestModel(
-                      birthdate: "2003-10-10",
+                      birthdate: birthdayController.text,
                       email: emailcontroller.text,
-                      lastName: namecontroller.text,
-                      firstName: namecontroller.text,
+                      lastName: lastnamecontroller.text,
+                      firstName: firestnamecontroller.text,
                       password: passwordController.text,
-                      profileImage: "null",
+                      profileImage: profileImageBase64,
                     );
                     context.read<SignUpCubit>().signUp(
                       signUpModel: signUpModel,
@@ -204,10 +240,62 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                   creatAccount: "Sign In",
                 ),
               ),
+              SizedBox(height: 25),
             ],
           ),
         ),
       ),
     );
   }
+
+  void showImagePickerOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext modalContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Select from Gallery'),
+                onTap: () {
+                  // أغلق القائمة أولاً ثم اختر الصورة
+                  Navigator.of(modalContext).pop();
+                  _pickImage(ImageSource.gallery);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Take a Photo'),
+                onTap: () {
+                  // أغلق القائمة أولاً ثم التقط الصورة
+                  Navigator.of(modalContext).pop();
+                  _pickImage(ImageSource.camera);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: source);
+
+    if (image != null) {
+      final bytes = await File(image.path).readAsBytes();
+      final imageEncode = base64Encode(bytes);
+
+      setState(() {
+        imageFile = image;
+        profileImageBase64 = imageEncode; // <-- هنا يتم استخدام المتغير الجديد
+      });
+    }
+  }
 }
+
+// تعريف navigatorKey (ضروري في مكان ما في التطبيق)
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

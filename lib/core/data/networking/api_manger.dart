@@ -7,6 +7,7 @@ import 'package:skin_dd/core/data/models/delete_diagnosis_model.dart';
 import 'package:skin_dd/core/data/models/diagnosis_model.dart';
 import 'package:skin_dd/core/data/models/get_diagnosis_model.dart';
 import 'package:skin_dd/core/errors/failures.dart';
+import 'package:skin_dd/features/skin_diseases/data/models/skin_disease_category_model.dart';
 
 import '../models/diagnosis_response_model.dart';
 
@@ -47,26 +48,26 @@ class ApiManger {
   }) async {
     final List<ConnectivityResult> connectivityResult =
         await (Connectivity().checkConnectivity());
-    if (connectivityResult.contains(ConnectivityResult.mobile) ||
-        connectivityResult.contains(ConnectivityResult.wifi)) {
-      try {
-        final response = await dio.get(
-          "http://3.71.177.75:8000/get_diagnoses/${userId}",
-        );
+    /*  if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {*/
+    try {
+      final response = await dio.get(
+        "http://3.71.177.75:8000/get_diagnoses/${userId}",
+      );
 
-        final responseData = GetDiagnosisModel.fromJson(response.data);
-        if (response.statusCode! >= 200 && response.statusCode! < 300) {
-          return Right(responseData);
-        } else {
-          return Left(SeverFailure("not found---404"));
-        }
-      } on Exception catch (e) {
-        log("ApiManger ----- getDiagnosis ${e.toString()}");
-        return Left(SeverFailure(e.toString()));
+      final responseData = GetDiagnosisModel.fromJson(response.data);
+      if (response.statusCode! >= 200 && response.statusCode! < 300) {
+        return Right(responseData);
+      } else {
+        return Left(SeverFailure("not found---404"));
       }
-    } else {
-      return Left(SeverFailure("Check internet connection"));
+    } on Exception catch (e) {
+      log("ApiManger ----- getDiagnosis ${e.toString()}");
+      return Left(SeverFailure(e.toString()));
     }
+    /* } else {
+      return Left(SeverFailure("Check internet connection"));
+    }*/
   }
 
   Future<Either<Failure, DeleteDiagnosisResponseModel>> deleteDiagnosis({
@@ -93,6 +94,29 @@ class ApiManger {
         }
       } on Exception catch (e) {
         log("ApiManger ----- deleteDiagnosis ${e.toString()}");
+        return Left(SeverFailure(e.toString()));
+      }
+    } else {
+      return Left(SeverFailure("Check internet connection"));
+    }
+  }
+
+  Future<Either<Failure, SkinDiseaseCategoryModel>> getDiseaseCategory() async {
+    final List<ConnectivityResult> connectivityResult =
+        await (Connectivity().checkConnectivity());
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
+      try {
+        final response = await dio.get("http://54.242.77.95:5000/diseases");
+
+        final responseData = SkinDiseaseCategoryModel.fromJson(response.data);
+        if (response.statusCode! >= 200 && response.statusCode! < 300) {
+          return Right(responseData);
+        } else {
+          return Left(SeverFailure("not found---404"));
+        }
+      } on Exception catch (e) {
+        log("ApiManger ----- getDiagnosis ${e.toString()}");
         return Left(SeverFailure(e.toString()));
       }
     } else {

@@ -6,16 +6,30 @@ import 'package:skin_dd/core/theming/text_style_app.dart';
 import 'package:skin_dd/features/profile/presentation/widgets/profile_item.dart';
 
 import '../../../../core/constans/shared_pref_constans.dart';
+import '../../../../core/helper/functions_helper.dart';
+import '../../../../core/helper/get_upper_word.dart';
 import '../../../../core/helper/routes/routes_name.dart';
 import '../../../../core/theming/colors_app.dart';
 import 'image_profile_widget.dart';
 
 class ProfileViewBody extends StatelessWidget {
-  const ProfileViewBody({super.key});
-
+  ProfileViewBody({super.key});
+  var date = SharedPreferencesHelper.getDate(
+    key: SharedPrefConstans.userBirthdate,
+  );
+  String firstName =
+      SharedPreferencesHelper.getDate(
+        key: SharedPrefConstans.firstName,
+      ).toString();
+  String lastName =
+      SharedPreferencesHelper.getDate(
+        key: SharedPrefConstans.lastName,
+      ).toString();
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.sizeOf(context);
+
+    String fullName = "$firstName $lastName";
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -46,16 +60,12 @@ class ProfileViewBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(height: 60),
-                    Text(
-                      "Edit Photo",
-                      style: TextStylesApp.font14PrimaryColor400,
-                    ),
+
                     SizedBox(height: 20),
                     ProfileItem(
                       containerColor: Color(0xffEAF2FF),
                       imageColor: ColorsApp.mainBlue,
-                      title:
-                          "${SharedPreferencesHelper.getDate(key: SharedPrefConstans.userNmae)}",
+                      title: "${capitalizeFirstOfEachWord(fullName)}",
                       image: "assets/icons/outline/user.svg",
                     ),
                     SizedBox(height: 20),
@@ -70,33 +80,69 @@ class ProfileViewBody extends StatelessWidget {
                     ProfileItem(
                       imageColor: Color(0xffFF4C5E),
                       containerColor: Color(0xFFFFEEEF),
-                      title:
-                          "${SharedPreferencesHelper.getDate(key: SharedPrefConstans.userBirthdate)}",
+                      title: "${filterDate(date.toString())}",
                       image: "assets/icons/calendar.svg",
                     ),
                     SizedBox(height: 20),
                     GestureDetector(
                       onTap: () {
-                        SharedPreferencesHelper.removeData(
-                          key: SharedPrefConstans.userToken,
-                        );
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          RoutesName.loginView,
-                          (route) => false,
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext dialogContext) {
+                            return AlertDialog(
+                              title: const Text('Logout'),
+
+                              content: const Text(
+                                'Are you sure you want to log out?',
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                      color: ColorsApp.primaryColor,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(dialogContext).pop();
+                                  },
+                                ),
+
+                                TextButton(
+                                  child: const Text(
+                                    'Confirm',
+                                    style: TextStyle(
+                                      color: ColorsApp.primaryColor,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    SharedPreferencesHelper.removeData(
+                                      key: SharedPrefConstans.userToken,
+                                    );
+                                    Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      RoutesName.loginView,
+                                      (route) => false,
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
+                          },
                         );
                       },
+
                       child: Container(
                         height: 41,
-                        color: Color(0xFFB8E2E7),
+                        color: const Color(0xFFB8E2E7),
                         child: Row(
                           children: [
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             SvgPicture.asset(
                               "assets/icons/logout_icon.svg",
+
                               color: ColorsApp.primaryColor,
                             ),
-
                             Expanded(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

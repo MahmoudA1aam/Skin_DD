@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:skin_dd/core/helper/routes/routes_name.dart';
@@ -7,12 +9,24 @@ import 'package:skin_dd/features/drawer/domain/entity/drawer_entity.dart';
 import 'package:skin_dd/features/drawer/presentation/widgets/cutom_item_drawer.dart';
 
 import '../../../../core/constans/shared_pref_constans.dart';
+import '../../../../core/helper/get_upper_word.dart';
 
 class CustomDrawer extends StatelessWidget {
-  CustomDrawer({super.key});
+  const CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var imagebase64 = base64Decode("");
+    var imageinvalid = SharedPreferencesHelper.getDate(
+      key: SharedPrefConstans.imageProfileinvalid,
+    );
+    if (imageinvalid == true) {
+      String image =
+          SharedPreferencesHelper.getDate(
+            key: SharedPrefConstans.profileImage,
+          ).toString();
+      imagebase64 = base64Decode(image);
+    }
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -30,19 +44,28 @@ class CustomDrawer extends StatelessWidget {
                 SizedBox(height: 50),
                 Row(
                   children: [
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        radius: 23,
-                        backgroundImage: Svg('assets/images/facebook_icon.svg'),
-                      ),
-                    ),
+                    imageinvalid == false
+                        ? CircleAvatar(
+                          radius: 25,
+                          backgroundColor: Colors.white,
+                          child: CircleAvatar(
+                            radius: 23,
+                            backgroundImage: Svg(
+                              'assets/images/facebook_icon.svg',
+                            ),
+                          ),
+                        )
+                        : CircleAvatar(
+                          radius: 25,
+                          backgroundColor: Colors.white,
+                          child: CircleAvatar(
+                            radius: 23,
+                            backgroundImage: MemoryImage(imagebase64),
+                          ),
+                        ),
                     SizedBox(width: 10),
                     Text(
-                      SharedPreferencesHelper.getDate(
-                        key: SharedPrefConstans.userNmae,
-                      ).toString(),
+                      "${capitalizeFirstOfEachWord(SharedPreferencesHelper.getDate(key: SharedPrefConstans.firstName).toString())}${capitalizeFirstOfEachWord(SharedPreferencesHelper.getDate(key: SharedPrefConstans.lastName).toString())}",
                       style: TextStylesApp.font20white500,
                     ),
                   ],

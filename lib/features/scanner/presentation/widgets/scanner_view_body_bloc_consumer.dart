@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../core/constans/shared_pref_constans.dart';
+import '../../../../core/helper/shared_pref_helper/shared_pref.dart';
 import '../cubits/scanner_cubit.dart';
 
 class ScannerViewBodyBlocConsumer extends StatefulWidget {
@@ -18,8 +20,13 @@ class _ScannerViewBodyBlocConsumerState
     extends State<ScannerViewBodyBlocConsumer> {
   late CameraController cameraController;
   late ImagePicker imagePicker;
+  String userId = '';
   @override
   void initState() {
+    userId =
+        SharedPreferencesHelper.getDate(
+          key: SharedPrefConstans.userId,
+        ).toString();
     imagePicker = ImagePicker();
     super.initState();
     initializeCamera();
@@ -80,6 +87,11 @@ class _ScannerViewBodyBlocConsumerState
               child: IconButton(
                 onPressed: () {
                   Navigator.pop(context);
+                  if (context.read<ScannerCubit>().state is ScannerFailure) {
+                    context.read<ScannerCubit>().geAlltDiagnosis(
+                      userId: userId,
+                    );
+                  }
                 },
                 icon: Icon(Icons.arrow_back_ios, color: Colors.white),
               ),
