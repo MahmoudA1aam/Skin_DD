@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,12 +14,14 @@ class ListViewRecentScans extends StatelessWidget {
   final List<GetItemDiagnosisModel> getSkinDesieaseList;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
+    return Container(
+      child: getSkinDesieaseList.isEmpty?
+          Center(child: Text('No scans yet'),)
+          :ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-
         padding: EdgeInsets.zero,
-        itemCount: getSkinDesieaseList.length,
+        itemCount: min(3, getSkinDesieaseList.length),
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(bottom: 10),
@@ -45,19 +48,35 @@ class RecentScansItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Uint8List image = base64Decode(respone.diseaseImage ?? "");
-    String base64Data = respone.diseaseHeatmap!.replaceFirst(
-      "data:image/png;base64,",
-      "",
-    );
+    // final Uint8List image = base64Decode(respone.diseaseImage ?? "");
+    // String base64Data = respone.diseaseHeatmap!.replaceFirst(
+    //   "data:image/png;base64,",
+    //   "",
+    // );
 
     // فك تشفير السلسلة إلى Uint8List
-    Uint8List bytes = base64Decode(base64Data);
+    //Uint8List bytes = base64Decode(base64Data);
+    Uint8List? bytes;
+    if (respone.diseaseHeatmap != null && respone.diseaseHeatmap!.isNotEmpty) {
+      try {
+        String base64Data = respone.diseaseHeatmap!.split(',').last;
+        bytes = base64Decode(base64Data);
+      } catch (e) {
+        bytes = null;
+      }
+    }
+
     return Row(
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(12.0),
-          child: Image.memory(
+          child:
+           bytes==null?
+           Container(
+             color: Colors.grey,
+             height: 110,
+             width: 110,)
+          :Image.memory(
             bytes,
             height: 110,
             width: 110,

@@ -63,14 +63,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
           key: formKey,
           child: Column(
             children: [
-              const SizedBox(height: 24),
-              Text(
-                "Sign up now and start exploring all that our app has to offer. We're excited to welcome you to our community!",
-                style: TextStylesApp.font14PrimaryColor400.copyWith(
-                  color: Color(0xff757575),
-                ),
-                textAlign: TextAlign.start,
-              ),
+              Image.asset('assets/images/image_splash_native.png',height: 230,),
 
               const SizedBox(height: 24),
               CustomTextFormField(

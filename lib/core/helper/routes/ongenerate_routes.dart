@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:skin_dd/core/helper/routes/routes_name.dart';
+import 'package:skin_dd/features/chatbot/presentation/ui/chatbot_view.dart';
 import 'package:skin_dd/features/history/presentation/ui/history_view.dart';
 
 import 'package:skin_dd/features/profile/presentation/ui/profile_view.dart';
 
 import 'package:skin_dd/features/skin_diseases/presentation/ui/Skin_diseases_view.dart';
+import 'package:skin_dd/features/store/presentation/medicines_view.dart';
 import 'package:skin_dd/main_view.dart';
 
 import '../../../features/auth/presentation/login/ui/login_view_.dart';
@@ -40,6 +42,10 @@ Route<dynamic>? onGenerateRoutes(RouteSettings settings) {
               getItemDiagnosisModel: arguments as GetItemDiagnosisModel,
             ),
       );
+    case RoutesName.chatbotview:
+      return MaterialPageRoute(builder: (context) => chatbotview());
+    case RoutesName.medicinesview:
+      return MaterialPageRoute(builder: (context) => medicinesview());
 
     default:
       return MaterialPageRoute(builder: (context) => const OnboardingView());

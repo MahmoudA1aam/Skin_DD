@@ -6,8 +6,11 @@ import 'package:skin_dd/features/home/presentation/widgets/list_view_categories.
 import 'package:skin_dd/features/home/presentation/widgets/list_view_recent_scans.dart';
 import 'package:skin_dd/features/home/presentation/widgets/row_title_and_button.dart';
 
+import '../../../../core/helper/routes/routes_name.dart';
 import '../../../../core/theming/text_style_app.dart';
 import '../../../scanner/presentation/cubits/scanner_cubit.dart';
+import 'navigate_chatbot_view.dart';
+import 'options_for_application_view.dart';
 
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({
@@ -40,32 +43,39 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            SizedBox(height: 10),
-            RowTittleAndButtomText(title: "Skin Diseases"),
-            SizedBox(height: 10),
-            ListViewOfCategories(),
-            SizedBox(height: 10),
-            RowTittleAndButtomText(title: "Recent Scans"),
-            SizedBox(height: 10),
-            BlocConsumer<ScannerCubit, ScannerState>(
-              listener: (context, state) {},
-              builder: (context, state) {
-                if (state is HomeCubiteFailure) {
-                  return SliverToBoxAdapter(
-                    child: Center(child: Text(state.message)),
-                  );
-                }
-                if (state is HomeCubiteSuccess) {
-                  return ListViewRecentScans(
-                    getSkinDesieaseList: state.getListDiagnosis,
-                  );
-                }
-                return Expanded(child: ShammerListViewRecentScansDemo());
-              },
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 10),
+              RowTittleAndButtomText(title: "Skin Diseases",route: RoutesName.categoryView,),
+              SizedBox(height: 10),
+              ListViewOfCategories(),
+              SizedBox(height: 10),
+              navigatechatbot(),
+              SizedBox(height: 10),
+              optionsforapplication(),
+              SizedBox(height: 10),
+              RowTittleAndButtomText(title: "Recent Scans" ,route: RoutesName.historyView,),
+              SizedBox(height: 10),
+              BlocConsumer<ScannerCubit, ScannerState>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  if (state is HomeCubiteFailure) {
+                    return Center(child: Text(state.message));
+                    // return SliverToBoxAdapter(
+                    //   child: Center(child: Text(state.message)),
+                    // );
+                  }
+                  if (state is HomeCubiteSuccess) {
+                    return ListViewRecentScans(
+                      getSkinDesieaseList: state.getListDiagnosis,
+                    );
+                  }
+                  return SizedBox(height: 330,child: ShammerListViewRecentScansDemo());
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

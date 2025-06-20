@@ -37,6 +37,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
           child: Column(
             children: [
               SizedBox(height: 24),
+              Image.asset('assets/images/image_splash_native.png',height: 230,),
               CustomTextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -74,19 +75,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                           ),
                 ),
               ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Forgot Password?",
-                    textAlign: TextAlign.end,
-                    style: TextStylesApp.font13Grey600.copyWith(
-                      color: ColorsApp.primaryColor,
-                    ),
-                  ),
-                ],
-              ),
+
               const SizedBox(height: 20),
               CustomButton(
                 onPressed: () {
@@ -109,26 +98,6 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   textHave: "Don't have an account?",
                   creatAccount: " Sign Up ",
                 ),
-              ),
-              const SizedBox(height: 15),
-              const OrDivider(),
-              const SizedBox(height: 15),
-              SocialLoginButton(
-                image: "assets/images/google_icon.svg",
-                title: "Sign in with Google",
-                onPressed: () {},
-              ),
-              const SizedBox(height: 15),
-              SocialLoginButton(
-                image: "assets/images/apple_icon.svg",
-                title: "Sign in with apple",
-                onPressed: () {},
-              ),
-              const SizedBox(height: 15),
-              SocialLoginButton(
-                image: "assets/images/facebook_icon.svg",
-                title: "Sign in with Facebook",
-                onPressed: () {},
               ),
             ],
           ),

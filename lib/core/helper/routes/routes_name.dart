@@ -9,4 +9,7 @@ class RoutesName {
   static const String historyView = "historyView";
   static const String categoryView = "categoryView";
   static const String detailsView = "detailsView";
+  static const String chatbotview = "chatbotview";
+  static const String medicinesview = "medicinesview";
+
 }
