@@ -2,11 +2,12 @@ class LoginResponseModel {
   String? accessToken;
   User? user;
   String? message;
-  LoginResponseModel({this.accessToken, this.user});
+
+  LoginResponseModel({this.accessToken, this.user, this.message});
 
   LoginResponseModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
     accessToken = json['access_token'];
+    message = json['message'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
   }
 
@@ -27,7 +28,7 @@ class User {
   String? lastName;
   String? email;
   String? birthdate;
-  Null? profileImage;
+  String? profileImage;
   String? createdAt;
 
   User({
@@ -45,8 +46,8 @@ class User {
     firstName = json['first_name'];
     lastName = json['last_name'];
     email = json['email'];
-    birthdate = json['birthdate'];
-    profileImage = json['profile_image'];
+    birthdate = (json['birthdate'] as String?) ?? "";
+    profileImage = (json['profile_image'] as String?) ?? "";
     createdAt = json['created_at'];
   }
 

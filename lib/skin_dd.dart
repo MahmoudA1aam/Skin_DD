@@ -37,15 +37,11 @@ class _SkinDdState extends State<SkinDd> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create:
-          (context) =>
-              ScannerCubit(
-                  skinDiseasesCategoryRepo:
-                      getIt.get<SkinDiseasesCategoryRepo>(),
-                  diagnosisRepo: getIt.get<DiagnosisRepo>(),
-                  scannerRepo: getIt.get<ScannerRepo>(),
-                )
-                ..geAlltDiagnosis(userId: userId)
-                ..getSkinDiseasesCategory(),
+          (context) => ScannerCubit(
+            skinDiseasesCategoryRepo: getIt.get<SkinDiseasesCategoryRepo>(),
+            diagnosisRepo: getIt.get<DiagnosisRepo>(),
+            scannerRepo: getIt.get<ScannerRepo>(),
+          )..geAlltDiagnosis(userId: userId),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: onGenerateRoutes,

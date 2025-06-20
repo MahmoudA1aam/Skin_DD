@@ -211,8 +211,6 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
               SizedBox(height: 25),
               CustomButton(
                 onPressed: () {
-                  print("++++++++++++++++++++${profileImageBase64.toString()}");
-                  log("++++++++++++++++++++${profileImageBase64.toString()}");
                   if (formKey.currentState!.validate()) {
                     SignUpRequestModel signUpModel = SignUpRequestModel(
                       birthdate: birthdayController.text,
