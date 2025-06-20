@@ -13,14 +13,6 @@ class SignUpBlocConsumerViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<SignUpCubit, SignUpState>(
       listener: (context, state) {
-        /* if (state is SignUpLoading) {
-          showDialog(
-            context: context,
-            builder: (context) => Center(child: CircularProgressIndicator()),
-          );
-          return;
-        }*/
-
         if (state is SignUpFailure) {
           SnackBarService.showErrorMessage(state.message);
         }
