@@ -52,7 +52,7 @@ class ApiManger {
         connectivityResult.contains(ConnectivityResult.wifi)) {*/
     try {
       final response = await dio.get(
-        "http://3.71.177.75:8000/get_diagnoses/${userId}",
+        "http://54.242.77.95:5000/get_diagnoses/${userId}",
       );
 
       final responseData = GetDiagnosisModel.fromJson(response.data);
@@ -80,7 +80,7 @@ class ApiManger {
         connectivityResult.contains(ConnectivityResult.wifi)) {
       try {
         final response = await dio.delete(
-          "http://3.71.177.75:8000/delete_diagnosis/${diagonoseId}",
+          "http://54.242.77.95:5000/delete_diagnosis/${diagonoseId}",
           data: userId.toJson(),
         );
 

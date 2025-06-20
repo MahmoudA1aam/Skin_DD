@@ -151,7 +151,7 @@ class _chatbotviewState extends State<chatbotview> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset('assets/images/robot.png'),
-                Text('Hi ${SharedPreferencesHelper.getDate(key: SharedPrefConstans.userNmae)??''},\nHow Can I Help you Today ?',textAlign: TextAlign.center,style: TextStyle(fontSize: 20),),
+                Text('Hi ${SharedPreferencesHelper.getDate(key: SharedPrefConstans.firstName)??''},\nHow Can I Help you Today ?',textAlign: TextAlign.center,style: TextStyle(fontSize: 20),),
               ],
             ),
             )

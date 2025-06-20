@@ -8,7 +8,7 @@ import 'package:skin_dd/features/skin_diseases/data/models/skin_disease_category
 
 import 'package:skin_dd/features/skin_diseases/presentation/ui/Skin_diseases_view.dart';
 
-import 'package:skin_dd/features/store/presentation/medicines_view.dart';
+import 'package:skin_dd/features/medicines/presentation/medicines_view.dart';
 
 import 'package:skin_dd/features/skin_diseases/presentation/widgets/details_of_skin_disease.dart';
 

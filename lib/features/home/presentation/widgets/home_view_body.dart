@@ -56,9 +56,16 @@ class _HomeViewBodyState extends State<HomeViewBody> {
         child: Column(
           children: [
             SizedBox(height: 10),
-            RowTittleAndButtomText(title: "Skin Diseases", isSeeMore: false),
+            RowTittleAndButtomText(title: "Skin Diseases", isSeeMore: true,
+              onTap: () => Navigator.pushNamed(context, RoutesName.categoryView),
+            ),
             SizedBox(height: 10),
             ListOfSkinDiseaseBlocBuilder(),
+            SizedBox(height: 10),
+            SizedBox(height: 10),
+            navigatechatbot(),
+            SizedBox(height: 10),
+            optionsforapplication(),
             SizedBox(height: 10),
             RowTittleAndButtomText(
               title: "Recent Scans",

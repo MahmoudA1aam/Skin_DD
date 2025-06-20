@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:skin_dd/features/store/presentation/product_details_view.dart';
+import 'package:skin_dd/features/medicines/presentation/product_details_view.dart';
 
 import '../data/medicines_api.dart';
 

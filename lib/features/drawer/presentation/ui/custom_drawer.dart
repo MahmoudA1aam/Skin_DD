@@ -45,16 +45,7 @@ class CustomDrawer extends StatelessWidget {
                 Row(
                   children: [
                     imageinvalid == false
-                        ? CircleAvatar(
-                          radius: 25,
-                          backgroundColor: Colors.white,
-                          child: CircleAvatar(
-                            radius: 23,
-                            backgroundImage: Svg(
-                              'assets/images/facebook_icon.svg',
-                            ),
-                          ),
-                        )
+                        ? Icon(Icons.account_circle,size: 50,color: Colors.grey,)
                         : CircleAvatar(
                           radius: 25,
                           backgroundColor: Colors.white,
@@ -65,7 +56,7 @@ class CustomDrawer extends StatelessWidget {
                         ),
                     SizedBox(width: 10),
                     Text(
-                      "${capitalizeFirstOfEachWord(SharedPreferencesHelper.getDate(key: SharedPrefConstans.firstName).toString())}${capitalizeFirstOfEachWord(SharedPreferencesHelper.getDate(key: SharedPrefConstans.lastName).toString())}",
+                      "${capitalizeFirstOfEachWord(SharedPreferencesHelper.getDate(key: SharedPrefConstans.firstName).toString())} ${capitalizeFirstOfEachWord(SharedPreferencesHelper.getDate(key: SharedPrefConstans.lastName).toString())}",
                       style: TextStylesApp.font20white500,
                     ),
                   ],

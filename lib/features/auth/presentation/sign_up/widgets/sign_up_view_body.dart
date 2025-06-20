@@ -93,7 +93,6 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
           key: formKey,
           child: Column(
             children: [
-              Image.asset('assets/images/image_splash_native.png',height: 230,),
 
               const SizedBox(height: 10),
               GestureDetector(

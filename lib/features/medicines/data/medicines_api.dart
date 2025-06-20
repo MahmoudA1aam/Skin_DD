@@ -29,7 +29,7 @@ class Medicine {
 
 class MedicinesApi {
   Future<List<Medicine>> fetchMedicines() async {
-    final url = Uri.parse('http://10.0.2.2:5000/medicines');
+    final url = Uri.parse('http://54.242.77.95:5000/medicines');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
