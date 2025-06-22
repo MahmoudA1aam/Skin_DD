@@ -44,20 +44,12 @@ class CategoryItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
 
             child:
-                skinDesieaseItem.diseaseImage == null ||
-                        skinDesieaseItem.diseaseImage == ""
-                    ? Image.asset(
-                      "assets/images/Image.png",
+                Image.asset(
+                      "assets/images/doctor-dermatologist-examines-patients-hand-with-royalty-free-image-1662056958.webp",
                       height: 60,
                       width: 70,
                       fit: BoxFit.cover,
                     )
-                    : Image.network(
-                      skinDesieaseItem.diseaseImage ?? "",
-                      height: 60,
-                      width: 70,
-                      fit: BoxFit.cover,
-                    ),
           ),
           const SizedBox(height: 4),
           Text(

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:skin_dd/core/constans/api_constants.dart';
 import 'package:skin_dd/core/data/models/delete_diagnosis_model.dart';
 import 'package:skin_dd/core/data/models/diagnosis_model.dart';
 import 'package:skin_dd/core/data/models/get_diagnosis_model.dart';
@@ -24,7 +25,7 @@ class ApiManger {
         connectivityResult.contains(ConnectivityResult.wifi)) {
       try {
         final response = await dio.post(
-          "http://3.71.177.75:8000/upload_diagnosis",
+          ApiConstants.uploaddiagnosisapi,
           data: diagnosisModel.toJson(),
         );
 
@@ -52,7 +53,7 @@ class ApiManger {
         connectivityResult.contains(ConnectivityResult.wifi)) {*/
     try {
       final response = await dio.get(
-        "http://54.242.77.95:5000/get_diagnoses/${userId}",
+        "${ApiConstants.getdiagnosisapi}${userId}",
       );
 
       final responseData = GetDiagnosisModel.fromJson(response.data);
@@ -80,7 +81,7 @@ class ApiManger {
         connectivityResult.contains(ConnectivityResult.wifi)) {
       try {
         final response = await dio.delete(
-          "http://54.242.77.95:5000/delete_diagnosis/${diagonoseId}",
+          "${ApiConstants.deletediagnosisapi}${diagonoseId}",
           data: userId.toJson(),
         );
 
@@ -107,7 +108,7 @@ class ApiManger {
     if (connectivityResult.contains(ConnectivityResult.mobile) ||
         connectivityResult.contains(ConnectivityResult.wifi)) {
       try {
-        final response = await dio.get("http://54.242.77.95:5000/diseases");
+        final response = await dio.get(ApiConstants.skindiseasesapi);
 
         final responseData = SkinDiseaseCategoryModel.fromJson(response.data);
         if (response.statusCode! >= 200 && response.statusCode! < 300) {

@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:skin_dd/core/constans/api_constants.dart';
+
 class Medicine {
   final String id;
   final String name;
@@ -29,7 +31,7 @@ class Medicine {
 
 class MedicinesApi {
   Future<List<Medicine>> fetchMedicines() async {
-    final url = Uri.parse('http://54.242.77.95:5000/medicines');
+    final url = Uri.parse(ApiConstants.medicinesapi);
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

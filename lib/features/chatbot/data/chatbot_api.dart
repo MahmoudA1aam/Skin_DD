@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:skin_dd/core/constans/api_constants.dart';
+
 class chatbotapi {
   Future<String> sendMessage(String userInput) async {
     final url = Uri.parse(
-        'http://54.242.77.95:5001/chat'); // Replace with your API URL
+        ApiConstants.chatbotapi); // Replace with your API URL
 
     final response = await http.post(
       url,
